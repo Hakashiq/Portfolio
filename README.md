@@ -6,7 +6,7 @@ A personal portfolio website showcasing my projects, technical skills, and progr
 
 ## 🚀 Live Demo
 
-http://127.0.0.1:5500/index.html
+https://hakashiq.github.io/My-Portfolio/
 
 ---
 
