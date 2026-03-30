@@ -20,10 +20,10 @@ https://hakashiq.github.io/My-Portfolio/
 
 ## 📌 Features
 
-* Responsive design (mobile + desktop)
+* Responsive design
 * Project showcase section
 * Skills overview
-* Clean and minimal UI
+* Clean and Retro/Arcade UI
 
 ---
 
