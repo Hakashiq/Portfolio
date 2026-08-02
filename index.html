@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Hak Ashiq M - Full Stack Developer Portfolio. A premium football-themed scout report showcasing development skills, projects, and achievements.">
+    <title>Hak Ashiq M | Full Stack Developer Scout Report</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CSS stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Sound Effects / Ambient Whistle Control (Hidden Audio) -->
+    <audio id="whistle-sound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-84.wav" preload="auto"></audio>
+    <audio id="crowd-sound" src="https://assets.mixkit.co/active_storage/sfx/2083/2083-84.wav" preload="auto" loop></audio>
+
+    <!-- Top Navigation Bar -->
+    <header class="main-header">
+        <div class="logo">
+            <span class="scout-tag">SCOUT REPORT</span>
+            <span class="player-name-brand">H. ASHIQ M</span>
+        </div>
+        <nav class="nav-links">
+            <a href="#overview"><i class="fa-solid fa-user-ninja"></i> Overview</a>
+            <a href="#tactics"><i class="fa-solid fa-chess-board"></i> Tactics</a>
+            <a href="#match-reports"><i class="fa-solid fa-file-invoice"></i> Matches</a>
+            <a href="#cabinet"><i class="fa-solid fa-trophy"></i> Trophies</a>
+            <a href="#transfers"><i class="fa-solid fa-arrows-spin"></i> Transfers</a>
+            <a href="#press-room"><i class="fa-solid fa-microphone"></i> Press Room</a>
+        </nav>
+        <div class="header-actions">
+            <button id="sound-toggle" title="Play Stadium Sound" class="action-btn">
+                <i class="fa-solid fa-volume-xmark"></i>
+            </button>
+            <button id="whistle-trigger" title="Blow Whistle" class="action-btn whistle-btn">
+                <i class="fa-solid fa-bullhorn"></i> Kick Off
+            </button>
+        </div>
+        <!-- Mobile Nav Toggle -->
+        <button class="mobile-nav-toggle" aria-label="Toggle Navigation">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+    </header>
+
+    <main>
+        <!-- SECTION 1: OVERVIEW (HERO) -->
+        <section id="overview" class="section hero-section">
+            <div class="section-container hero-container">
+                
+                <!-- FIFA FUT CARD (Left) -->
+                <div class="fut-card-wrapper">
+                    <div class="fut-card animate-float">
+                        <div class="fut-card-inner">
+                            <div class="fut-card-top">
+                                <div class="rating-pos">
+                                    <div class="rating">88</div>
+                                    <div class="pos">MID</div>
+                                    <div class="flag">
+                                        <!-- Indian Flag representation -->
+                                        <svg viewBox="0 0 3 2" width="30">
+                                            <rect width="3" height="2" fill="#FF9933"/>
+                                            <rect y="0.67" width="3" height="1.33" fill="#FFFFFF"/>
+                                            <rect y="1.33" width="3" height="0.67" fill="#128807"/>
+                                            <circle cx="1.5" cy="1" r="0.2" fill="#000080"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="player-avatar-container">
+                                    <!-- Stylized SVG silhouette with glowing football aura -->
+                                    <svg viewBox="0 0 100 100" class="player-avatar">
+                                        <defs>
+                                            <linearGradient id="avatarGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" stop-color="#d4a373" />
+                                                <stop offset="100%" stop-color="#1e4620" />
+                                            </linearGradient>
+                                        </defs>
+                                        <circle cx="50" cy="35" r="22" fill="url(#avatarGrad)" />
+                                        <path d="M15,85 C15,65 30,55 50,55 C70,55 85,65 85,85 Z" fill="url(#avatarGrad)" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="fut-card-bottom">
+                                <div class="player-name">H. ASHIQ M</div>
+                                <div class="player-title">FULL STACK DEVELOPER</div>
+                                <hr class="card-divider">
+                                <div class="player-stats">
+                                    <div class="stat-col">
+                                        <div class="stat-item"><span class="stat-val">92</span> <span class="stat-lbl">COD</span></div>
+                                        <div class="stat-item"><span class="stat-val">89</span> <span class="stat-lbl">SYS</span></div>
+                                        <div class="stat-item"><span class="stat-val">90</span> <span class="stat-lbl">DB</span></div>
+                                    </div>
+                                    <div class="stat-col">
+                                        <div class="stat-item"><span class="stat-val">93</span> <span class="stat-lbl">API</span></div>
+                                        <div class="stat-item"><span class="stat-val">88</span> <span class="stat-lbl">AI</span></div>
+                                        <div class="stat-item"><span class="stat-val">95</span> <span class="stat-lbl">TEM</span></div>
+                                    </div>
+                                </div>
+                                <div class="card-crest">
+                                    <i class="fa-solid fa-shield-halved"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SCOUT REPORT BIO (Right) -->
+                <div class="scout-report-details">
+                    <span class="report-badge">OFFICIAL SCOUT REPORT</span>
+                    <h1 class="main-title">HAK ASHIQ M</h1>
+                    <h2 class="sub-title">Full Stack Developer // Central Midfield Engine</h2>
+                    
+                    <p class="scout-description">
+                        Operating as a versatile box-to-box midfielder in the tech stack, Hak Ashiq M bridges the defensive line (databases) and the attacking line (front-end interfaces) with precision. Highly efficient in structuring modular APIs, debugging complex microservices, and deploying intelligent features.
+                    </p>
+
+                    <!-- Player Metadata Grid -->
+                    <div class="metadata-grid">
+                        <div class="meta-item">
+                            <span class="meta-lbl">Preferred Foot</span>
+                            <span class="meta-val">Right (Java / Python)</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-lbl">Work Rate</span>
+                            <span class="meta-val">High / High</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-lbl">Base Operations</span>
+                            <span class="meta-val">Chennai, Tamilnadu</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-lbl">Contract Status</span>
+                            <span class="meta-val">Ready for Signings (2027 Graduate)</span>
+                        </div>
+                    </div>
+
+                    <!-- Contact & Social Hub -->
+                    <div class="player-hub">
+                        <a href="mailto:thakashiq@gmail.com" class="hub-pill"><i class="fa-solid fa-envelope"></i> thakashiq@gmail.com</a>
+                        <a href="tel:+918056211285" class="hub-pill"><i class="fa-solid fa-phone"></i> +91 8056211285</a>
+                        <a href="https://linkedin.com" target="_blank" class="hub-pill"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
+                        <a href="https://github.com" target="_blank" class="hub-pill"><i class="fa-brands fa-github"></i> GitHub</a>
+                    </div>
+
+                    <div class="action-buttons">
+                        <a href="#press-room" class="btn btn-primary"><i class="fa-solid fa-file-signature"></i> Sign Player</a>
+                        <a href="#" class="btn btn-secondary" id="download-scout-pdf"><i class="fa-solid fa-download"></i> Download Scouting Brochure</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CRISTIANO RONALDO QUOTE BANNER -->
+        <section id="ronaldo-quote" class="quote-banner">
+            <div class="quote-container">
+                <div class="quote-visual">
+                    <span class="jersey-number">7</span>
+                    <i class="fa-solid fa-quote-left quote-icon"></i>
+                </div>
+                <div class="quote-content">
+                    <blockquote>
+                        "I am not a perfectionist, but I like to feel that things are done well."
+                    </blockquote>
+                    <cite>— Cristiano Ronaldo</cite>
+                    <p class="quote-translation">
+                        <strong>The IT Application:</strong> In software engineering, this philosophy translates to writing clean, modular, and performant code. It's not about being flawless on the first commit, but about holding ourselves to the highest technical standards, validating operations, and relentlessly refactoring code to ensure robust performance.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: TACTICAL PITCH (SKILLS) -->
+        <section id="tactics" class="section tactics-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <span class="section-badge">TACTICAL SYSTEM</span>
+                    <h2 class="section-title">Squad Formation & Competency Pitch</h2>
+                    <p class="section-subtitle">Click on any player position on the tactical pitch to view detailed scout reports on their technical attributes.</p>
+                </div>
+
+                <div class="tactics-grid">
+                    <!-- The Interactive Football Pitch -->
+                    <div class="pitch-container">
+                        <div class="pitch">
+                            <!-- Pitch Lines -->
+                            <div class="pitch-border"></div>
+                            <div class="penalty-area top">
+                                <div class="penalty-arc"></div>
+                                <div class="penalty-box"></div>
+                            </div>
+                            <div class="center-circle-container">
+                                <div class="center-line"></div>
+                                <div class="center-circle"></div>
+                                <div class="center-spot"></div>
+                            </div>
+                            <div class="penalty-area bottom">
+                                <div class="penalty-arc"></div>
+                                <div class="penalty-box"></div>
+                            </div>
+
+                            <!-- Player Nodes (Skills Pins) -->
+                            <!-- ATTACKING LINE (Forwards) -->
+                            <div class="player-node pin-forward active" data-skill="react" style="top: 20%; left: 25%;">
+                                <div class="jersey">10</div>
+                                <div class="player-pin-name">React</div>
+                            </div>
+                            <div class="player-node pin-forward" data-skill="llm" style="top: 15%; left: 50%;">
+                                <div class="jersey">9</div>
+                                <div class="player-pin-name">FastAPI & LLM</div>
+                            </div>
+                            <div class="player-node pin-forward" data-skill="css" style="top: 20%; left: 75%;">
+                                <div class="jersey">11</div>
+                                <div class="player-pin-name">Tailwind / CSS</div>
+                            </div>
+
+                            <!-- MIDFIELD LINE (Core Dev) -->
+                            <div class="player-node pin-midfield" data-skill="springboot" style="top: 45%; left: 50%;">
+                                <div class="jersey">8</div>
+                                <div class="player-pin-name">Spring Boot</div>
+                            </div>
+                            <div class="player-node pin-midfield" data-skill="java" style="top: 50%; left: 20%;">
+                                <div class="jersey">6</div>
+                                <div class="player-pin-name">Java</div>
+                            </div>
+                            <div class="player-node pin-midfield" data-skill="python" style="top: 50%; left: 80%;">
+                                <div class="jersey">7</div>
+                                <div class="player-pin-name">Python</div>
+                            </div>
+                            <div class="player-node pin-midfield" data-skill="oop" style="top: 60%; left: 50%;">
+                                <div class="jersey">18</div>
+                                <div class="player-pin-name">OOP & DSA</div>
+                            </div>
+
+                            <!-- DEFENSIVE LINE (Databases & Infrastructure) -->
+                            <div class="player-node pin-defense" data-skill="mysql" style="top: 78%; left: 25%;">
+                                <div class="jersey">3</div>
+                                <div class="player-pin-name">MySQL</div>
+                            </div>
+                            <div class="player-node pin-defense" data-skill="mongodb" style="top: 78%; left: 75%;">
+                                <div class="jersey">4</div>
+                                <div class="player-pin-name">MongoDB</div>
+                            </div>
+                            <div class="player-node pin-defense" data-skill="redis" style="top: 72%; left: 50%;">
+                                <div class="jersey">5</div>
+                                <div class="player-pin-name">Redis</div>
+                            </div>
+
+                            <!-- GOALKEEPER (Infrastructure / Version Control) -->
+                            <div class="player-node pin-goalkeeper" data-skill="git" style="top: 90%; left: 50%;">
+                                <div class="jersey">1</div>
+                                <div class="player-pin-name">Git & Tools</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Scout Notes Panel (Sidebar that updates dynamically) -->
+                    <div class="scout-notes-panel">
+                        <div class="panel-header">
+                            <i class="fa-solid fa-clipboard-list"></i>
+                            <h3>Scout Technical Notes</h3>
+                        </div>
+                        <div class="panel-body" id="scout-notes-content">
+                            <!-- Populated dynamically by JavaScript, default React state shown -->
+                            <div class="skill-scout-view">
+                                <div class="skill-title-row">
+                                    <h4 class="skill-name">React.js</h4>
+                                    <span class="skill-rating-badge">OVR 90</span>
+                                </div>
+                                <span class="skill-position-badge">Forward (Frontend UI)</span>
+                                
+                                <div class="rating-bar-container">
+                                    <div class="rating-bar-fill" style="width: 90%;"></div>
+                                </div>
+
+                                <p class="skill-notes">
+                                    Acts as the key playmaker in user interfaces. Highly adept at building reactive, modular frontends, managing component states, and integrating interactive dashboards. Provides fluid transitions and crisp user experiences.
+                                </p>
+                                
+                                <ul class="skill-tactical-plays">
+                                    <li><i class="fa-solid fa-check"></i> Component Lifecycle & Hooks Mastery</li>
+                                    <li><i class="fa-solid fa-check"></i> Single Page Application (SPA) Routing</li>
+                                    <li><i class="fa-solid fa-check"></i> State Management & API Integration</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="pitch-tactics-legend">
+                                <span class="legend-dot forward"></span> Attack (Frontend)
+                                <span class="legend-dot midfield"></span> Midfield (Backend)
+                                <span class="legend-dot defense"></span> Defense (Database)
+                                <span class="legend-dot goalkeeper"></span> Keeper (Tools)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: MATCH REPORTS (PROJECTS) -->
+        <section id="match-reports" class="section matches-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <span class="section-badge">CAMPAIGNS</span>
+                    <h2 class="section-title">Match Day Reports</h2>
+                    <p class="section-subtitle">A tactical logs review of key software applications built, outlining the strategic objectives and engineering wins.</p>
+                    
+                    <div class="tournament-filters">
+                        <button class="filter-btn active" data-filter="all">All Campaigns</button>
+                        <button class="filter-btn" data-filter="ai">AI Powered</button>
+                        <button class="filter-btn" data-filter="fullstack">Full Stack</button>
+                        <button class="filter-btn" data-filter="backend">Backend/Console</button>
+                    </div>
+                </div>
+
+                <div class="matches-grid">
+                    <!-- Project 1: InterviewIQ -->
+                    <div class="match-card" data-category="ai fullstack">
+                        <div class="match-card-header">
+                            <span class="match-tournament"><i class="fa-solid fa-robot"></i> AI CAMPAIGN</span>
+                            <div class="match-status-badge win">WIN // 3 - 2</div>
+                        </div>
+                        <div class="match-teams">
+                            <div class="team">InterviewIQ</div>
+                            <div class="vs">vs</div>
+                            <div class="team opponent">Standard Mock Interviews</div>
+                        </div>
+                        <div class="match-tactics">
+                            <span class="tactic-tag">Java</span>
+                            <span class="tactic-tag">Spring Boot</span>
+                            <span class="tactic-tag">React</span>
+                            <span class="tactic-tag">MySQL</span>
+                            <span class="tactic-tag">Redis</span>
+                            <span class="tactic-tag">FastAPI</span>
+                            <span class="tactic-tag">LLM APIs</span>
+                        </div>
+                        <div class="match-report-summary">
+                            <p class="report-lead">Deployed a full-stack AI-powered mock interview platform that automates resume parsing, adaptive question generation, and instant feedback loops.</p>
+                            <h4 class="play-by-play-title"><i class="fa-solid fa-list-check"></i> Play-by-Play Key Actions:</h4>
+                            <ul class="play-by-play-list">
+                                <li>Designed and developed scalable REST APIs using Spring Boot and MySQL, following clean code principles.</li>
+                                <li>Integrated FastAPI and LLM APIs for automated resume scoring, skill extraction, and answer evaluation.</li>
+                                <li>Optimized query latency and API response performance using Redis caching for high availability.</li>
+                            </ul>
+                        </div>
+                        <div class="match-card-footer">
+                            <span class="match-date"><i class="fa-regular fa-calendar"></i> Season 2024</span>
+                            <a href="https://github.com" target="_blank" class="match-action-link">View Game Tape <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- Project 2: RentTech -->
+                    <div class="match-card" data-category="fullstack">
+                        <div class="match-card-header">
+                            <span class="match-tournament"><i class="fa-solid fa-cart-shopping"></i> E-COMMERCE LEAGUE</span>
+                            <div class="match-status-badge win">WIN // 2 - 0</div>
+                        </div>
+                        <div class="match-teams">
+                            <div class="team">RentTech Marketplace</div>
+                            <div class="vs">vs</div>
+                            <div class="team opponent">Booking Overlaps & Collisions</div>
+                        </div>
+                        <div class="match-tactics">
+                            <span class="tactic-tag">Java</span>
+                            <span class="tactic-tag">Spring Boot</span>
+                            <span class="tactic-tag">Spring Security</span>
+                            <span class="tactic-tag">React</span>
+                            <span class="tactic-tag">MySQL</span>
+                            <span class="tactic-tag">JWT</span>
+                        </div>
+                        <div class="match-report-summary">
+                            <p class="report-lead">Constructed a peer-to-peer equipment rental platform emphasizing transactional integrity, secure user authentication, and high backend reliability.</p>
+                            <h4 class="play-by-play-title"><i class="fa-solid fa-list-check"></i> Play-by-Play Key Actions:</h4>
+                            <ul class="play-by-play-list">
+                                <li>Implemented a robust booking logic engine with conflict detection rules to prevent double-bookings.</li>
+                                <li>Developed secure RESTful API architectures, incorporating Spring Security and stateless JWT authentication.</li>
+                                <li>Optimized database operations using Spring Data JPA indices for rapid item searches and filtering.</li>
+                            </ul>
+                        </div>
+                        <div class="match-card-footer">
+                            <span class="match-date"><i class="fa-regular fa-calendar"></i> Season 2024</span>
+                            <a href="https://github.com" target="_blank" class="match-action-link">View Game Tape <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- Project 3: Hospital Management System -->
+                    <div class="match-card" data-category="backend">
+                        <div class="match-card-header">
+                            <span class="match-tournament"><i class="fa-solid fa-server"></i> CORE BACKEND TROPHY</span>
+                            <div class="match-status-badge win">WIN // 1 - 0</div>
+                        </div>
+                        <div class="match-teams">
+                            <div class="team">Hospital Manager Console</div>
+                            <div class="vs">vs</div>
+                            <div class="team opponent">Manual Log Tracking</div>
+                        </div>
+                        <div class="match-tactics">
+                            <span class="tactic-tag">Java</span>
+                            <span class="tactic-tag">JDBC</span>
+                            <span class="tactic-tag">MySQL</span>
+                            <span class="tactic-tag">OOP</span>
+                            <span class="tactic-tag">Collections</span>
+                        </div>
+                        <div class="match-report-summary">
+                            <p class="report-lead">Programmed a console-based enterprise system to coordinate physician appointments, patient health logs, and hospital inventory operations.</p>
+                            <h4 class="play-by-play-title"><i class="fa-solid fa-list-check"></i> Play-by-Play Key Actions:</h4>
+                            <ul class="play-by-play-list">
+                                <li>Managed full CRUD patient data flows over JDBC connections, mapping objects to MySQL records.</li>
+                                <li>Enforced referential database integrity constraints and complex foreign key structural associations.</li>
+                                <li>Applied object-oriented principles (OOP), dry code rules, and the Java Collections Framework for efficient memory indexing.</li>
+                            </ul>
+                        </div>
+                        <div class="match-card-footer">
+                            <span class="match-date"><i class="fa-regular fa-calendar"></i> Season 2023</span>
+                            <a href="https://github.com" target="_blank" class="match-action-link">View Game Tape <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: TROPHY CABINET (ACHIEVEMENTS) -->
+        <section id="cabinet" class="section cabinet-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <span class="section-badge">HONORS</span>
+                    <h2 class="section-title">The Trophy Cabinet</h2>
+                    <p class="section-subtitle">Exhibiting certifications, hackathons, sports records, and technical milestones accumulated.</p>
+                </div>
+
+                <div class="trophies-grid">
+                    <!-- Trophy 1: Kho Kho Tournament Winner -->
+                    <div class="trophy-card animate-float">
+                        <div class="trophy-icon-container">
+                            <div class="trophy-glow"></div>
+                            <i class="fa-solid fa-trophy trophy-icon gold"></i>
+                        </div>
+                        <h3 class="trophy-title">Tournament Winner</h3>
+                        <p class="trophy-org">Anna University Inter-Zonal</p>
+                        <p class="trophy-detail">Kho Kho Tournament Champion (2023-2024). Active athlete translating high physical endurance, speed, and strategic teamwork to agile engineering workflows.</p>
+                    </div>
+
+                    <!-- Trophy 2: Smart India Hackathon Selection -->
+                    <div class="trophy-card animate-float" style="animation-delay: 0.2s;">
+                        <div class="trophy-icon-container">
+                            <div class="trophy-glow"></div>
+                            <i class="fa-solid fa-award trophy-icon gold-alt"></i>
+                        </div>
+                        <h3 class="trophy-title">SIH Selected</h3>
+                        <p class="trophy-org">Smart India Hackathon</p>
+                        <p class="trophy-detail">Selected for the prestigious SIH Intercollege Round. Pitched innovative solutions resolving complex real-world government-defined problem statements.</p>
+                    </div>
+
+                    <!-- Trophy 3: LeetCode Golden Boot -->
+                    <div class="trophy-card animate-float" style="animation-delay: 0.4s;">
+                        <div class="trophy-icon-container">
+                            <div class="trophy-glow"></div>
+                            <i class="fa-solid fa-shoe-prints trophy-icon boot"></i>
+                        </div>
+                        <h3 class="trophy-title">Golden Boot (DSA)</h3>
+                        <p class="trophy-org">LeetCode 250+ Solved</p>
+                        <p class="trophy-detail">Solved 250+ LeetCode problems covering complex Arrays, Linked Lists, Trees, Graphs, Dynamic Programming, and Greedy algorithms. Elite algorithmic execution.</p>
+                    </div>
+
+                    <!-- Trophy 4: Gen AI Leader -->
+                    <div class="trophy-card animate-float" style="animation-delay: 0.6s;">
+                        <div class="trophy-icon-container">
+                            <div class="trophy-glow"></div>
+                            <i class="fa-solid fa-certificate trophy-icon cert"></i>
+                        </div>
+                        <h3 class="trophy-title">Specialist License</h3>
+                        <p class="trophy-org">Generative AI Leader</p>
+                        <p class="trophy-detail">Google Skills validation certifying prompt engineering, LLM integration, agentic frameworks, and AI API orchestration competencies.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: TRANSFER HISTORY (EDUCATION) -->
+        <section id="transfers" class="section transfers-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <span class="section-badge">CAREER PROGRESSION</span>
+                    <h2 class="section-title">Transfer History</h2>
+                    <p class="section-subtitle">Academic registrations, contract duration, and performance reviews at key educational training academies.</p>
+                </div>
+
+                <div class="transfers-timeline">
+                    <!-- Entry 1 -->
+                    <div class="transfer-card">
+                        <div class="transfer-stamp">
+                            <div class="stamp-icon"><i class="fa-solid fa-file-contract"></i></div>
+                            <div class="stamp-line"></div>
+                        </div>
+                        <div class="transfer-info">
+                            <span class="transfer-date">2023 - 2027 (Current Club)</span>
+                            <h3>B.Tech Information Technology</h3>
+                            <h4>Sri Shakthi Institute of Engineering and Technology</h4>
+                            <p class="academy-location"><i class="fa-solid fa-location-dot"></i> Coimbatore, Tamilnadu</p>
+                            <div class="performance-metric">
+                                <span class="metric-label">Semester VI Performance Index (CGPA)</span>
+                                <div class="metric-progress-wrapper">
+                                    <div class="metric-progress-bar" style="width: 71.2%;"></div>
+                                    <span class="metric-val">7.12 / 10.0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Entry 2 -->
+                    <div class="transfer-card">
+                        <div class="transfer-stamp">
+                            <div class="stamp-icon"><i class="fa-solid fa-signature"></i></div>
+                        </div>
+                        <div class="transfer-info">
+                            <span class="transfer-date">Graduated 2023</span>
+                            <h3>HSC - Higher Secondary Course (School Signing)</h3>
+                            <h4>Dhanish Matriculation Higher Secondary School</h4>
+                            <p class="academy-location"><i class="fa-solid fa-location-dot"></i> Chennai, Tamilnadu</p>
+                            <div class="performance-metric">
+                                <span class="metric-label">HSC Final Examination Rating</span>
+                                <div class="metric-progress-wrapper">
+                                    <div class="metric-progress-bar" style="width: 79%;"></div>
+                                    <span class="metric-val">79%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 6: PRESS ROOM (CONTACT) -->
+        <section id="press-room" class="section press-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <span class="section-badge">MEDIA ZONE</span>
+                    <h2 class="section-title">Post-Match Press Conference</h2>
+                    <p class="section-subtitle">Submit your questions or contract proposals. The player will respond to your channel shortly.</p>
+                </div>
+
+                <div class="press-grid">
+                    <!-- The Interactive Form -->
+                    <div class="press-form-container">
+                        <form id="scout-contact-form" class="press-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="scout-name"><i class="fa-solid fa-user-tie"></i> Reporter / Scout Name</label>
+                                    <input type="text" id="scout-name" name="name" placeholder="Fabrizio Romano" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="scout-org"><i class="fa-solid fa-newspaper"></i> Media Outlet / Agency</label>
+                                    <input type="text" id="scout-org" name="organization" placeholder="Sky Sports Tech" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="scout-email"><i class="fa-solid fa-envelope"></i> Channel Contact (Email)</label>
+                                <input type="email" id="scout-email" name="email" placeholder="scout@skysports.com" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="scout-msg"><i class="fa-solid fa-microphone-lines"></i> Question for Hak Ashiq M</label>
+                                <textarea id="scout-msg" name="message" rows="5" placeholder="Here is a transfer proposal or technical project inquiry..." required></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-submit-press">
+                                <i class="fa-solid fa-paper-plane"></i> Submit Question to Press Room
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Live Press Feed Mockup (Super interactive) -->
+                    <div class="press-feed-container">
+                        <div class="feed-header">
+                            <span class="live-dot"></span>
+                            <h4>LIVE PRESS ROOM UPDATES</h4>
+                        </div>
+                        <div class="feed-ticker" id="feed-ticker-container">
+                            <div class="ticker-item new-update">
+                                <span class="ticker-time">17:49</span>
+                                <p><strong>System:</strong> Press room initialized. Broadcast server connected.</p>
+                            </div>
+                            <div class="ticker-item">
+                                <span class="ticker-time">17:50</span>
+                                <p><strong>Sky Sports:</strong> Head Coach inspecting the Pitch details.</p>
+                            </div>
+                            <div class="ticker-item">
+                                <span class="ticker-time">17:51</span>
+                                <p><strong>L'Equipe:</strong> Scout notes on <strong>Spring Boot</strong> look highly positive.</p>
+                            </div>
+                        </div>
+                        <div class="press-room-controls">
+                            <p class="rec-channel-text">Send a message to receive a personalized scouting sheet and schedule a direct interview trial.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-left">
+                <span class="footer-brand">H. ASHIQ M // SCOUT PORTFOLIO</span>
+                <p>Designed for elite technical performance. Inspired by tactical football simulations.</p>
+            </div>
+            <div class="footer-right">
+                <div class="footer-links">
+                    <a href="https://github.com" target="_blank"><i class="fa-brands fa-github"></i></a>
+                    <a href="https://linkedin.com" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="mailto:thakashiq@gmail.com"><i class="fa-solid fa-envelope"></i></a>
+                </div>
+                <p class="copyright">&copy; 2026 Hak Ashiq M. All Rights Reserved. Adapted Quote &copy; Cristiano Ronaldo.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JS script -->
+    <script src="app.js"></script>
+</body>
+</html>
