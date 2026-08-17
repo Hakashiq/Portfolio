@@ -425,13 +425,11 @@ function bindForm(form) {
     });
 }
 
-// Download scouting report brochure mockup
+// Download scouting report brochure
 const brochureBtn = document.getElementById('download-scout-pdf');
 if (brochureBtn) {
     brochureBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        alert("Scouting brochure download started: 'Hak_Ashiq_M_Scout_Report.pdf' (Simulated Download). In production, this links to your updated PDF resume!");
-        addTickerItem("System", "Scouting Brochure downloaded by recruiter.");
+        addTickerItem("System", "Scouting Brochure (Resume PDF) downloaded by recruiter.");
     });
 }
 
