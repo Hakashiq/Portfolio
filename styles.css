@@ -180,6 +180,18 @@ a {
     font-weight: 800;
     color: var(--color-green);
     letter-spacing: -0.02em;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.player-name-brand i {
+    color: var(--color-gold);
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.logo:hover .player-name-brand i {
+    transform: rotate(360deg);
 }
 
 .nav-links {
@@ -1083,10 +1095,22 @@ a {
 
 .pitch-tactics-legend {
     display: flex;
-    gap: 16px;
     flex-wrap: wrap;
+    gap: 10px 16px;
     font-size: 0.8rem;
     color: var(--text-secondary);
+}
+
+.legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.legend-item.keeper-item {
+    flex-basis: 100%;
+    margin-top: 4px;
 }
 
 .legend-dot {
@@ -1094,6 +1118,7 @@ a {
     width: 8px;
     height: 8px;
     border-radius: 50%;
+    flex-shrink: 0;
 }
 
 .legend-dot.forward { background-color: var(--color-accent); }

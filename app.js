@@ -60,15 +60,15 @@ const skillDatabase = {
             "Multithreading & Concurrency Control"
         ]
     },
-    python: {
-        name: "Python",
-        rating: 88,
-        position: "Midfield (Scripting & AI)",
-        notes: "Versatile support player in data preprocessing and microservices. Frequently utilized to write FastAPI middleware, AI pipeline scripts, and data parsers.",
+    clanguage: {
+        name: "C Language",
+        rating: 85,
+        position: "Midfield (System Logic)",
+        notes: "Solid foundation in procedural programming, memory management, and pointers. Utilized to build efficient system-level utility scripts and study low-level hardware interactions.",
         plays: [
-            "Data Wrangling & Text Parsing",
-            "FastAPI Server Architecture",
-            "Script Automation & Tooling"
+            "Manual Memory Allocation (malloc/free)",
+            "Pointer Manipulation & Pointer Arithmetic",
+            "Data Structures Implementation from Scratch"
         ]
     },
     oop: {
@@ -350,79 +350,71 @@ setInterval(() => {
 }, 8000);
 
 // --- Contact Form Submission ---
-contactForm.addEventListener('submit', (e) => {
+function handleFormSubmit(e) {
     e.preventDefault();
     
-    const nameInput = document.getElementById('scout-name').value;
-    const orgInput = document.getElementById('scout-org').value;
-    const emailInput = document.getElementById('scout-email').value;
-    const msgInput = document.getElementById('scout-msg').value;
+    const form = e.target;
+    const nameVal = document.getElementById('scout-name').value;
+    const orgVal = document.getElementById('scout-org').value;
+    const emailVal = document.getElementById('scout-email').value;
+    const msgVal = document.getElementById('scout-msg').value;
     
     // Play whistle kickoff sound
     whistleSound.currentTime = 0;
-    whistleSound.play().catch(e => console.log(e));
+    whistleSound.play().catch(err => console.log(err));
     
-    // Append to live feed
-    addTickerItem("BREAKING NEWS", `Scout **${nameInput}** representing **${orgInput}** has officially entered the press room! Direct inquiry submitted: "${msgInput.substring(0, 50)}..."`);
-    
-    // Clear inputs
-    contactForm.reset();
-    
-    // Display Success Feedback UI inside the form
-    const formContainer = document.querySelector('.press-form-container');
-    const originalContent = formContainer.innerHTML;
-    
-    formContainer.innerHTML = `
-        <div style="text-align: center; padding: 40px 20px; color: var(--color-green); animation: slideIn 0.4s ease-out;">
-            <i class="fa-solid fa-circle-check" style="font-size: 4.5rem; margin-bottom: 20px; color: var(--color-green);"></i>
-            <h3 style="font-size: 1.8rem; margin-bottom: 12px; font-family: var(--font-heading);">Contract Inquiry Registered!</h3>
-            <p style="color: var(--text-secondary); margin-bottom: 24px;">Your question has been broadcast to the Player agent. Fabrizio Romano is preparing the 'Here We Go' announcement.</p>
-            <button id="reset-form-btn" class="btn btn-primary" style="margin: 0 auto; display: inline-flex;"><i class="fa-solid fa-arrow-rotate-left"></i> Submit Another Inquiry</button>
-        </div>
-    `;
-    
-    // Add reset button action
-    document.getElementById('reset-form-btn').addEventListener('click', () => {
-        formContainer.innerHTML = originalContent;
-        // Re-bind submit listener since HTML was replaced
-        const newForm = document.getElementById('scout-contact-form');
-        newForm.addEventListener('submit', arguments.callee);
-        
-        // Need to re-cache elements if needed, or simply reload page behavior or manual reset.
-        // Easiest is to bind the listener:
-        bindForm(newForm);
-    });
-});
+    // Add temporary loading indicator to the submit button
+    const submitBtn = form.querySelector('.btn-submit-press');
+    const originalBtnText = submitBtn.innerHTML;
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Broadcasting to Manager...`;
 
-// Helper function to bind contact form action in case of reset
-function bindForm(form) {
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const nameVal = document.getElementById('scout-name').value;
-        const orgVal = document.getElementById('scout-org').value;
-        const emailVal = document.getElementById('scout-email').value;
-        const msgVal = document.getElementById('scout-msg').value;
-        
-        whistleSound.currentTime = 0;
-        whistleSound.play().catch(e => console.log(e));
-        
+    // Send Form Data to FormSubmit.co via AJAX (keeps page state)
+    fetch("https://formsubmit.co/ajax/thakashiq@gmail.com", {
+        method: "POST",
+        headers: { 
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        body: JSON.stringify({
+            "Reporter Name": nameVal,
+            "Agency/Club": orgVal,
+            "Contact Email": emailVal,
+            "Press Inquiry/Message": msgVal
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Append entry to live press ticker feed
         addTickerItem("BREAKING NEWS", `Scout **${nameVal}** representing **${orgVal}** has officially entered the press room! Direct inquiry submitted: "${msgVal.substring(0, 50)}..."`);
         
-        form.reset();
-        
+        // Show Success Feedback UI inside the form
         const formContainer = document.querySelector('.press-form-container');
         formContainer.innerHTML = `
             <div style="text-align: center; padding: 40px 20px; color: var(--color-green); animation: slideIn 0.4s ease-out;">
                 <i class="fa-solid fa-circle-check" style="font-size: 4.5rem; margin-bottom: 20px; color: var(--color-green);"></i>
-                <h3 style="font-size: 1.8rem; margin-bottom: 12px; font-family: var(--font-heading);">Contract Inquiry Registered!</h3>
-                <p style="color: var(--text-secondary); margin-bottom: 24px;">Your question has been broadcast to the Player agent. Fabrizio Romano is preparing the 'Here We Go' announcement.</p>
-                <button id="reset-form-btn-2" class="btn btn-primary" style="margin: 0 auto; display: inline-flex;"><i class="fa-solid fa-arrow-rotate-left"></i> Submit Another Inquiry</button>
+                <h3 style="font-size: 1.8rem; margin-bottom: 12px; font-family: var(--font-heading);">Contract Inquiry Sent!</h3>
+                <p style="color: var(--text-secondary); margin-bottom: 24px;">Your question has been sent directly to Hak Ashiq M's agent (thakashiq@gmail.com). Fabrizio Romano is preparing the 'Here We Go' announcement.</p>
+                <button id="reset-form-btn" class="btn btn-primary" style="margin: 0 auto; display: inline-flex;"><i class="fa-solid fa-arrow-rotate-left"></i> Submit Another Inquiry</button>
             </div>
         `;
-        document.getElementById('reset-form-btn-2').addEventListener('click', () => {
-            location.reload(); // Simple, clean reload to reset everything
+        
+        document.getElementById('reset-form-btn').addEventListener('click', () => {
+            location.reload(); // Simple reload to restore the original form HTML state
         });
+    })
+    .catch(err => {
+        console.error(err);
+        addTickerItem("System", "Error broadcasting press query. Please check connection.");
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnText;
+        alert("Failed to submit form to email. Please try again.");
     });
+}
+
+// Bind the submission listener to the form
+if (contactForm) {
+    contactForm.addEventListener('submit', handleFormSubmit);
 }
 
 // Download scouting report brochure
