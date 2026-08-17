@@ -146,12 +146,26 @@ const crowdSound = document.getElementById('crowd-sound');
 
 let isCrowdSoundPlaying = false;
 
-// --- Header Scroll Effect ---
+// --- Header Scroll Effect & Turf Progress ---
 window.addEventListener('scroll', () => {
     if (window.scrollY > 50) {
         header.classList.add('scrolled');
     } else {
         header.classList.remove('scrolled');
+    }
+    
+    // Turf Scroll Progress Calculation
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    
+    const scrollTurf = document.getElementById('scroll-turf');
+    const scrollBall = document.getElementById('scroll-ball');
+    if (scrollTurf && scrollBall) {
+        scrollTurf.style.width = `${scrollPercent}%`;
+        scrollBall.style.left = `${scrollPercent}%`;
+        // Rotate 3.6 degrees for every 1% scrolled
+        scrollBall.style.transform = `translate(-50%, -50%) rotate(${scrollPercent * 10.8}deg)`;
     }
     
     // Highlight Active Link on Scroll
@@ -420,3 +434,50 @@ if (brochureBtn) {
         addTickerItem("System", "Scouting Brochure downloaded by recruiter.");
     });
 }
+
+// --- Scroll Reveal Intersection Observers ---
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Observer for standard cards (match cards, trophies, transfers)
+    const revealElements = document.querySelectorAll('.reveal-card, .slide-tackle-left, .slide-tackle-right, .trophy-drop');
+    
+    const cardObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('revealed');
+                // Once it's revealed, we don't need to observe it anymore
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.15,
+        rootMargin: '0px 0px -50px 0px'
+    });
+    
+    revealElements.forEach(el => cardObserver.observe(el));
+    
+    // 2. Observer for the Tactical Pitch (jersey lineup reveal)
+    const pitch = document.querySelector('.pitch');
+    if (pitch) {
+        const pitchObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Blow kickoff whistle when the field enters view!
+                    const whistleSound = document.getElementById('whistle-sound');
+                    if (whistleSound && !pitch.classList.contains('active')) {
+                        whistleSound.volume = 0.3;
+                        whistleSound.currentTime = 0;
+                        whistleSound.play().catch(e => console.log("Kickoff autoplay whistle blocked: " + e));
+                        addTickerItem("System", "KICKOFF! Tactical line-up deploying on the pitch.");
+                    }
+                    
+                    pitch.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.3
+        });
+        
+        pitchObserver.observe(pitch);
+    }
+});

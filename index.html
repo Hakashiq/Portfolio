@@ -45,6 +45,11 @@
         <button class="mobile-nav-toggle" aria-label="Toggle Navigation">
             <i class="fa-solid fa-bars"></i>
         </button>
+        <!-- Turf Progress Track & Ball -->
+        <div class="scroll-pitch-track">
+            <div class="scroll-turf-line" id="scroll-turf"></div>
+            <div class="scroll-ball" id="scroll-ball">⚽</div>
+        </div>
     </header>
 
     <main>
@@ -194,53 +199,53 @@
 
                             <!-- Player Nodes (Skills Pins) -->
                             <!-- ATTACKING LINE (Forwards) -->
-                            <div class="player-node pin-forward active" data-skill="react" style="top: 20%; left: 25%;">
+                            <div class="player-node pin-forward" data-skill="react" style="--target-top: 20%; --target-left: 25%; --delay: 0.5s;">
                                 <div class="jersey">10</div>
                                 <div class="player-pin-name">React</div>
                             </div>
-                            <div class="player-node pin-forward" data-skill="llm" style="top: 15%; left: 50%;">
+                            <div class="player-node pin-forward" data-skill="llm" style="--target-top: 15%; --target-left: 50%; --delay: 0.4s;">
                                 <div class="jersey">9</div>
                                 <div class="player-pin-name">FastAPI & LLM</div>
                             </div>
-                            <div class="player-node pin-forward" data-skill="css" style="top: 20%; left: 75%;">
+                            <div class="player-node pin-forward" data-skill="css" style="--target-top: 20%; --target-left: 75%; --delay: 0.6s;">
                                 <div class="jersey">11</div>
                                 <div class="player-pin-name">Tailwind / CSS</div>
                             </div>
 
                             <!-- MIDFIELD LINE (Core Dev) -->
-                            <div class="player-node pin-midfield" data-skill="springboot" style="top: 45%; left: 50%;">
+                            <div class="player-node pin-midfield" data-skill="springboot" style="--target-top: 45%; --target-left: 50%; --delay: 0.3s;">
                                 <div class="jersey">8</div>
                                 <div class="player-pin-name">Spring Boot</div>
                             </div>
-                            <div class="player-node pin-midfield" data-skill="java" style="top: 50%; left: 20%;">
+                            <div class="player-node pin-midfield" data-skill="java" style="--target-top: 50%; --target-left: 20%; --delay: 0.2s;">
                                 <div class="jersey">6</div>
                                 <div class="player-pin-name">Java</div>
                             </div>
-                            <div class="player-node pin-midfield" data-skill="python" style="top: 50%; left: 80%;">
+                            <div class="player-node pin-midfield" data-skill="python" style="--target-top: 50%; --target-left: 80%; --delay: 0.4s;">
                                 <div class="jersey">7</div>
                                 <div class="player-pin-name">Python</div>
                             </div>
-                            <div class="player-node pin-midfield" data-skill="oop" style="top: 60%; left: 50%;">
+                            <div class="player-node pin-midfield" data-skill="oop" style="--target-top: 60%; --target-left: 50%; --delay: 0.5s;">
                                 <div class="jersey">18</div>
                                 <div class="player-pin-name">OOP & DSA</div>
                             </div>
 
                             <!-- DEFENSIVE LINE (Databases & Infrastructure) -->
-                            <div class="player-node pin-defense" data-skill="mysql" style="top: 78%; left: 25%;">
+                            <div class="player-node pin-defense" data-skill="mysql" style="--target-top: 78%; --target-left: 25%; --delay: 0.1s;">
                                 <div class="jersey">3</div>
                                 <div class="player-pin-name">MySQL</div>
                             </div>
-                            <div class="player-node pin-defense" data-skill="mongodb" style="top: 78%; left: 75%;">
+                            <div class="player-node pin-defense" data-skill="mongodb" style="--target-top: 78%; --target-left: 75%; --delay: 0.2s;">
                                 <div class="jersey">4</div>
                                 <div class="player-pin-name">MongoDB</div>
                             </div>
-                            <div class="player-node pin-defense" data-skill="redis" style="top: 72%; left: 50%;">
+                            <div class="player-node pin-defense" data-skill="redis" style="--target-top: 72%; --target-left: 50%; --delay: 0.3s;">
                                 <div class="jersey">5</div>
                                 <div class="player-pin-name">Redis</div>
                             </div>
 
                             <!-- GOALKEEPER (Infrastructure / Version Control) -->
-                            <div class="player-node pin-goalkeeper" data-skill="git" style="top: 90%; left: 50%;">
+                            <div class="player-node pin-goalkeeper" data-skill="git" style="--target-top: 90%; --target-left: 50%; --delay: 0s;">
                                 <div class="jersey">1</div>
                                 <div class="player-pin-name">Git & Tools</div>
                             </div>
@@ -308,7 +313,7 @@
 
                 <div class="matches-grid">
                     <!-- Project 1: InterviewIQ -->
-                    <div class="match-card" data-category="ai fullstack">
+                    <div class="match-card slide-tackle-left" data-category="ai fullstack">
                         <div class="match-card-header">
                             <span class="match-tournament"><i class="fa-solid fa-robot"></i> AI CAMPAIGN</span>
                             <div class="match-status-badge win">WIN // 3 - 2</div>
@@ -343,7 +348,7 @@
                     </div>
 
                     <!-- Project 2: RentTech -->
-                    <div class="match-card" data-category="fullstack">
+                    <div class="match-card reveal-card" data-category="fullstack">
                         <div class="match-card-header">
                             <span class="match-tournament"><i class="fa-solid fa-cart-shopping"></i> E-COMMERCE LEAGUE</span>
                             <div class="match-status-badge win">WIN // 2 - 0</div>
@@ -377,7 +382,7 @@
                     </div>
 
                     <!-- Project 3: Hospital Management System -->
-                    <div class="match-card" data-category="backend">
+                    <div class="match-card slide-tackle-right" data-category="backend">
                         <div class="match-card-header">
                             <span class="match-tournament"><i class="fa-solid fa-server"></i> CORE BACKEND TROPHY</span>
                             <div class="match-status-badge win">WIN // 1 - 0</div>
@@ -423,7 +428,7 @@
 
                 <div class="trophies-grid">
                     <!-- Trophy 1: Kho Kho Tournament Winner -->
-                    <div class="trophy-card animate-float">
+                    <div class="trophy-card trophy-drop" style="--float-delay: 0s;">
                         <div class="trophy-icon-container">
                             <div class="trophy-glow"></div>
                             <i class="fa-solid fa-trophy trophy-icon gold"></i>
@@ -434,7 +439,7 @@
                     </div>
 
                     <!-- Trophy 2: Smart India Hackathon Selection -->
-                    <div class="trophy-card animate-float" style="animation-delay: 0.2s;">
+                    <div class="trophy-card trophy-drop" style="--float-delay: 0.2s;">
                         <div class="trophy-icon-container">
                             <div class="trophy-glow"></div>
                             <i class="fa-solid fa-award trophy-icon gold-alt"></i>
@@ -445,7 +450,7 @@
                     </div>
 
                     <!-- Trophy 3: LeetCode Golden Boot -->
-                    <div class="trophy-card animate-float" style="animation-delay: 0.4s;">
+                    <div class="trophy-card trophy-drop" style="--float-delay: 0.4s;">
                         <div class="trophy-icon-container">
                             <div class="trophy-glow"></div>
                             <i class="fa-solid fa-shoe-prints trophy-icon boot"></i>
@@ -456,7 +461,7 @@
                     </div>
 
                     <!-- Trophy 4: Gen AI Leader -->
-                    <div class="trophy-card animate-float" style="animation-delay: 0.6s;">
+                    <div class="trophy-card trophy-drop" style="--float-delay: 0.6s;">
                         <div class="trophy-icon-container">
                             <div class="trophy-glow"></div>
                             <i class="fa-solid fa-certificate trophy-icon cert"></i>
@@ -480,9 +485,9 @@
 
                 <div class="transfers-timeline">
                     <!-- Entry 1 -->
-                    <div class="transfer-card">
+                    <div class="transfer-card slide-tackle-left">
                         <div class="transfer-stamp">
-                            <div class="stamp-icon"><i class="fa-solid fa-file-contract"></i></div>
+                            <div class="stamp-icon stamp-reveal"><i class="fa-solid fa-file-contract"></i></div>
                             <div class="stamp-line"></div>
                         </div>
                         <div class="transfer-info">
@@ -501,9 +506,9 @@
                     </div>
 
                     <!-- Entry 2 -->
-                    <div class="transfer-card">
+                    <div class="transfer-card slide-tackle-right">
                         <div class="transfer-stamp">
-                            <div class="stamp-icon"><i class="fa-solid fa-signature"></i></div>
+                            <div class="stamp-icon stamp-reveal"><i class="fa-solid fa-signature"></i></div>
                         </div>
                         <div class="transfer-info">
                             <span class="transfer-date">Graduated 2023</span>

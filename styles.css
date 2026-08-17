@@ -886,12 +886,27 @@ a {
 /* --- Player Nodes (Jersey Pins) --- */
 .player-node {
     position: absolute;
-    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.2);
+    opacity: 0;
     z-index: 5;
     cursor: pointer;
     display: flex;
     flex-direction: column;
     align-items: center;
+    transition: top 1.2s cubic-bezier(0.25, 1, 0.5, 1), 
+                left 1.2s cubic-bezier(0.25, 1, 0.5, 1), 
+                transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                opacity 0.6s ease;
+    transition-delay: var(--delay, 0s);
+}
+
+.pitch.active .player-node {
+    top: var(--target-top);
+    left: var(--target-left);
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
 }
 
 .jersey {
@@ -1883,4 +1898,108 @@ a {
     .footer-links {
         justify-content: center;
     }
+}
+
+/* ==========================================
+   SCROLL REVEAL ANIMATIONS (FOOTBALL INSPIRED)
+   ========================================== */
+
+/* 1. Scroll Turf Tracker */
+.scroll-pitch-track {
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background-color: rgba(46, 90, 54, 0.1);
+    pointer-events: none;
+    overflow: visible;
+}
+
+.scroll-turf-line {
+    height: 100%;
+    width: 0%;
+    background: repeating-linear-gradient(
+        90deg,
+        #2E5A36,
+        #2E5A36 10px,
+        #3D7546 10px,
+        #3D7546 20px
+    );
+    border-bottom: 1px solid #1E4620;
+    transition: width 0.1s ease-out;
+}
+
+.scroll-ball {
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    transform: translate(-50%, -50%) rotate(0deg);
+    font-size: 1.2rem;
+    line-height: 1;
+    pointer-events: none;
+    transition: left 0.1s ease-out, transform 0.1s ease-out;
+}
+
+/* 2. Slide Tackle Entries (left and right slides) */
+.slide-tackle-left {
+    opacity: 0;
+    transform: translateX(-80px) rotate(-1deg);
+    transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1),
+                transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.slide-tackle-right {
+    opacity: 0;
+    transform: translateX(80px) rotate(1deg);
+    transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1),
+                transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.slide-tackle-left.revealed,
+.slide-tackle-right.revealed {
+    opacity: 1;
+    transform: translateX(0) rotate(0deg);
+}
+
+/* 3. General Scroll Card Fade Up */
+.reveal-card {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-card.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 4. Trophy Drop/Bounce (Crossbar Bounce) */
+.trophy-drop {
+    opacity: 0;
+    transform: translateY(-50px) scale(0.6);
+    transition: opacity 0.6s ease-out,
+                transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.trophy-drop.revealed {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    animation: float 5s ease-in-out infinite;
+    animation-delay: var(--float-delay, 0s);
+}
+
+/* 5. Stamp Animation (Transfer signings) */
+.stamp-reveal {
+    opacity: 0;
+    transform: scale(3.5) rotate(-35deg);
+    transition: opacity 0.4s ease-out,
+                transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition-delay: 0.3s;
+}
+
+.revealed .stamp-reveal {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
 }
