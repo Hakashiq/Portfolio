@@ -317,13 +317,13 @@ a {
 }
 
 .fut-card {
-    width: 320px;
-    height: 480px;
+    width: 330px;
+    height: 520px;
     background: linear-gradient(135deg, #e3c093 0%, #c99455 50%, #9e7039 100%);
     border-radius: 20px;
     padding: 4px;
     box-shadow: var(--shadow-lg);
-    clip-path: polygon(50% 0%, 100% 12%, 100% 85%, 50% 100%, 0% 85%, 0% 12%);
+    clip-path: polygon(50% 0%, 100% 12%, 100% 89%, 50% 100%, 0% 89%, 0% 12%);
     transition: var(--transition-smooth);
     position: relative;
 }
@@ -337,8 +337,8 @@ a {
     width: 100%;
     height: 100%;
     background: linear-gradient(180deg, #FAF8F5 0%, #EFEBE4 100%);
-    clip-path: polygon(50% 0.5%, 99.5% 12.3%, 99.5% 84.8%, 50% 99.5%, 0.5% 84.8%, 0.5% 12.3%);
-    padding: 24px 20px;
+    clip-path: polygon(50% 0.5%, 99.5% 12.3%, 99.5% 88.8%, 50% 99.5%, 0.5% 88.8%, 0.5% 12.3%);
+    padding: 18px 18px 24px 18px;
     display: flex;
     flex-direction: column;
     position: relative;
@@ -361,7 +361,7 @@ a {
 
 .fut-card-top {
     display: flex;
-    height: 50%;
+    height: 48%;
     position: relative;
     z-index: 2;
 }
@@ -424,54 +424,57 @@ a {
 }
 
 .fut-card-bottom {
-    height: 50%;
+    height: 52%;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding-top: 15px;
+    padding-top: 8px;
+    justify-content: flex-start;
     z-index: 2;
 }
 
 .player-name {
-    font-size: 1.5rem;
+    font-size: 1.35rem;
     font-weight: 800;
     color: var(--color-green);
     letter-spacing: -0.01em;
     font-family: var(--font-heading);
+    line-height: 1.1;
+    margin-bottom: 2px;
 }
 
 .player-title {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     font-weight: 700;
     color: var(--text-secondary);
     letter-spacing: 0.1em;
-    margin-bottom: 8px;
+    margin-bottom: 5px;
 }
 
 .card-divider {
-    width: 80%;
+    width: 85%;
     border: none;
     height: 1px;
     background: linear-gradient(90deg, transparent, rgba(201, 148, 85, 0.5), transparent);
-    margin-bottom: 12px;
+    margin-bottom: 8px;
 }
 
 .player-stats {
     display: flex;
     justify-content: center;
-    gap: 30px;
+    gap: 24px;
     width: 100%;
 }
 
 .stat-col {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 4px;
 }
 
 .stat-item {
-    font-size: 0.95rem;
+    font-size: 0.92rem;
     text-align: left;
 }
 
@@ -488,10 +491,10 @@ a {
 }
 
 .card-crest {
-    margin-top: auto;
-    font-size: 1.4rem;
+    font-size: 1.15rem;
     color: var(--color-gold);
-    animation: pulse 2s infinite;
+    display: flex;
+    align-items: center;
 }
 
 /* --- Scout Bio Right Side --- */
@@ -2272,7 +2275,7 @@ a {
     position: absolute;
     inset: -6px;
     border-radius: 24px;
-    clip-path: polygon(50% 0%, 100% 12%, 100% 85%, 50% 100%, 0% 85%, 0% 12%);
+    clip-path: polygon(50% 0%, 100% 12%, 100% 89%, 50% 100%, 0% 89%, 0% 12%);
     background: radial-gradient(circle at 50% 50%, rgba(201, 148, 85, 0.4) 0%, transparent 70%);
     z-index: -1;
     pointer-events: none;
@@ -2290,7 +2293,7 @@ a {
     inset: 0;
     pointer-events: none;
     z-index: 8;
-    clip-path: polygon(50% 0.5%, 99.5% 12.3%, 99.5% 84.8%, 50% 99.5%, 0.5% 84.8%, 0.5% 12.3%);
+    clip-path: polygon(50% 0.5%, 99.5% 12.3%, 99.5% 88.8%, 50% 99.5%, 0.5% 88.8%, 0.5% 12.3%);
     opacity: var(--foil-opacity, 0);
     background: radial-gradient(
         circle at var(--foil-x, 50%) var(--foil-y, 50%),
@@ -2395,34 +2398,39 @@ a {
 .card-footer-action {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    padding: 0 4px;
-    margin-top: 4px;
+    justify-content: center;
+    gap: 12px;
+    width: auto;
+    margin-top: 8px;
+    padding: 0;
+    position: relative;
+    z-index: 10;
 }
 
 .radar-toggle-btn {
-    background: rgba(201, 148, 85, 0.12);
-    border: 1px solid rgba(201, 148, 85, 0.35);
+    background: rgba(201, 148, 85, 0.16);
+    border: 1px solid rgba(201, 148, 85, 0.45);
     color: var(--color-green);
     font-family: var(--font-heading);
-    font-size: 0.65rem;
+    font-size: 0.72rem;
     font-weight: 800;
     letter-spacing: 0.08em;
-    padding: 3px 8px;
+    padding: 4px 14px;
     border-radius: 999px;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
-    gap: 4px;
-    transition: all 0.2s ease;
+    gap: 6px;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 6px rgba(46, 90, 54, 0.08);
 }
 
 .radar-toggle-btn:hover {
     background: var(--color-green);
     color: #FFFFFF;
     border-color: var(--color-green);
-    box-shadow: 0 2px 8px rgba(46, 90, 54, 0.25);
+    box-shadow: 0 4px 12px rgba(46, 90, 54, 0.25);
+    transform: translateY(-1px);
 }
 
 /* --- 4. Self-Drawing Pitch SVG Lines --- */
