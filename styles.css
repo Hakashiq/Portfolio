@@ -2028,3 +2028,483 @@ a {
     opacity: 1;
     transform: scale(1) rotate(0deg);
 }
+
+/* ==========================================================================
+   PHASE 1: STADIUM ATMOSPHERE, LIVING FUT CARD & INTRO LOADER
+   ========================================================================== */
+
+/* --- 1. Stadium Tunnel Walk-Out Loader --- */
+.stadium-intro {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #09130D;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.stadium-intro.intro-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.intro-tunnel-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.intro-floodlights {
+    position: absolute;
+    top: -20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 140%;
+    height: 80%;
+    background: radial-gradient(ellipse at 50% 0%, rgba(201, 148, 85, 0.45) 0%, rgba(46, 90, 54, 0.2) 40%, transparent 70%);
+    filter: blur(40px);
+    animation: introLightPulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes introLightPulse {
+    from { opacity: 0.6; transform: translateX(-50%) scale(0.95); }
+    to { opacity: 1; transform: translateX(-50%) scale(1.05); }
+}
+
+.intro-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    color: #FDFBF7;
+    max-width: 600px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    animation: introContentEnter 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes introContentEnter {
+    from { opacity: 0; transform: translateY(30px) scale(0.96); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.intro-badge {
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    color: var(--color-gold);
+    background: rgba(201, 148, 85, 0.15);
+    border: 1px solid rgba(201, 148, 85, 0.35);
+    padding: 6px 16px;
+    border-radius: 999px;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.intro-matchup {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+}
+
+.intro-team {
+    color: #FAF8F5;
+}
+
+.intro-team.opponent {
+    color: var(--color-gold);
+}
+
+.intro-vs {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: rgba(253, 251, 247, 0.5);
+    background: rgba(255, 255, 255, 0.08);
+    padding: 4px 10px;
+    border-radius: 6px;
+}
+
+.intro-countdown {
+    font-family: var(--font-heading);
+    font-size: 3.5rem;
+    font-weight: 900;
+    letter-spacing: 0.05em;
+    color: #FFFFFF;
+    text-shadow: 0 0 20px rgba(201, 148, 85, 0.6), 0 0 40px rgba(46, 90, 54, 0.4);
+    line-height: 1;
+    margin: 8px 0;
+    animation: kickoffGlow 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes kickoffGlow {
+    from { transform: scale(0.98); filter: drop-shadow(0 0 8px rgba(201, 148, 85, 0.5)); }
+    to { transform: scale(1.02); filter: drop-shadow(0 0 25px rgba(201, 148, 85, 0.9)); }
+}
+
+.intro-sub {
+    font-size: 0.95rem;
+    color: rgba(253, 251, 247, 0.7);
+    margin-bottom: 8px;
+}
+
+.intro-skip-btn {
+    background: transparent;
+    color: rgba(253, 251, 247, 0.6);
+    border: 1px solid rgba(253, 251, 247, 0.2);
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    font-family: var(--font-body);
+    transition: all 0.2s ease;
+}
+
+.intro-skip-btn:hover {
+    color: #FFFFFF;
+    border-color: var(--color-gold);
+    background: rgba(201, 148, 85, 0.15);
+}
+
+/* --- 2. Stadium Atmosphere & Floodlight Beams --- */
+.hero-section {
+    position: relative;
+    overflow: hidden;
+}
+
+.floodlight-beam {
+    position: absolute;
+    top: -60px;
+    width: 380px;
+    height: 520px;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.35;
+    mix-blend-mode: screen;
+    transform-origin: top center;
+    filter: blur(30px);
+}
+
+.floodlight-beam.beam-left {
+    left: 2%;
+    background: conic-gradient(from 120deg at 10% 0%, rgba(201, 148, 85, 0.5) 0deg, rgba(250, 248, 245, 0.2) 25deg, transparent 50deg);
+    animation: beamSwayLeft 7s ease-in-out infinite alternate;
+}
+
+.floodlight-beam.beam-right {
+    right: 5%;
+    background: conic-gradient(from 200deg at 90% 0%, rgba(46, 90, 54, 0.4) 0deg, rgba(201, 148, 85, 0.3) 25deg, transparent 50deg);
+    animation: beamSwayRight 8s ease-in-out infinite alternate;
+}
+
+@keyframes beamSwayLeft {
+    from { transform: rotate(-5deg) scaleY(0.95); opacity: 0.25; }
+    to { transform: rotate(8deg) scaleY(1.05); opacity: 0.45; }
+}
+
+@keyframes beamSwayRight {
+    from { transform: rotate(5deg) scaleY(1); opacity: 0.3; }
+    to { transform: rotate(-7deg) scaleY(1.08); opacity: 0.5; }
+}
+
+.hero-atmosphere-stripes {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+        90deg,
+        rgba(46, 90, 54, 0.015) 0px,
+        rgba(46, 90, 54, 0.015) 80px,
+        transparent 80px,
+        transparent 160px
+    );
+    z-index: 0;
+}
+
+/* --- 3. Living FUT Card: 3D Tilt, Holographic Foil & Particles --- */
+.fut-card-wrapper {
+    position: relative;
+    perspective: 1100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero-particles {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 480px;
+    height: 600px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.fut-card {
+    position: relative;
+    transform-style: preserve-3d;
+    will-change: transform;
+    transition: transform 0.15s cubic-bezier(0.2, 0, 0.2, 1), box-shadow 0.3s ease;
+    box-shadow: 0 16px 32px rgba(31, 36, 33, 0.15), 0 0 35px rgba(201, 148, 85, 0.25);
+    z-index: 2;
+}
+
+.fut-card::after {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: 24px;
+    clip-path: polygon(50% 0%, 100% 12%, 100% 85%, 50% 100%, 0% 85%, 0% 12%);
+    background: radial-gradient(circle at 50% 50%, rgba(201, 148, 85, 0.4) 0%, transparent 70%);
+    z-index: -1;
+    pointer-events: none;
+    animation: futAuraPulse 3s ease-in-out infinite alternate;
+}
+
+@keyframes futAuraPulse {
+    from { opacity: 0.4; transform: scale(0.98); }
+    to { opacity: 0.85; transform: scale(1.03); }
+}
+
+/* Holographic Foil Sweep Overlay */
+.fut-card-foil {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 8;
+    clip-path: polygon(50% 0.5%, 99.5% 12.3%, 99.5% 84.8%, 50% 99.5%, 0.5% 84.8%, 0.5% 12.3%);
+    opacity: var(--foil-opacity, 0);
+    background: radial-gradient(
+        circle at var(--foil-x, 50%) var(--foil-y, 50%),
+        rgba(255, 255, 255, 0.65) 0%,
+        rgba(201, 148, 85, 0.35) 25%,
+        rgba(46, 90, 54, 0.25) 50%,
+        transparent 75%
+    );
+    mix-blend-mode: color-dodge;
+    transition: opacity 0.25s ease;
+}
+
+/* Card Display Switcher (Stats vs Radar) */
+.card-display-switcher {
+    position: relative;
+    width: 100%;
+    min-height: 84px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.player-stats {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.player-stats.view-hidden {
+    opacity: 0;
+    transform: scale(0.9);
+    pointer-events: none;
+    position: absolute;
+}
+
+/* Radar Chart Styling */
+.fut-radar-container {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    position: absolute;
+    pointer-events: none;
+}
+
+.fut-radar-container.view-active {
+    opacity: 1;
+    transform: scale(1);
+    position: relative;
+    pointer-events: auto;
+}
+
+.fut-radar-svg {
+    width: 130px;
+    height: 100px;
+    overflow: visible;
+}
+
+.radar-grid {
+    fill: rgba(46, 90, 54, 0.04);
+    stroke: rgba(201, 148, 85, 0.3);
+    stroke-width: 0.8;
+}
+
+.radar-axis {
+    stroke: rgba(201, 148, 85, 0.25);
+    stroke-width: 0.8;
+    stroke-dasharray: 2 2;
+}
+
+.radar-data-polygon {
+    fill: rgba(46, 90, 54, 0.4);
+    stroke: var(--color-gold);
+    stroke-width: 1.8;
+    stroke-linejoin: round;
+    filter: drop-shadow(0 2px 4px rgba(46, 90, 54, 0.3));
+    transform-origin: 80px 80px;
+    animation: radarPolygonExpand 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes radarPolygonExpand {
+    from { transform: scale(0.1); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.radar-dot {
+    fill: var(--color-green);
+    stroke: var(--color-gold);
+    stroke-width: 1;
+}
+
+.radar-label {
+    font-family: var(--font-heading);
+    font-size: 7.5px;
+    font-weight: 800;
+    fill: var(--color-green);
+    letter-spacing: 0.02em;
+}
+
+.card-footer-action {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 4px;
+    margin-top: 4px;
+}
+
+.radar-toggle-btn {
+    background: rgba(201, 148, 85, 0.12);
+    border: 1px solid rgba(201, 148, 85, 0.35);
+    color: var(--color-green);
+    font-family: var(--font-heading);
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    padding: 3px 8px;
+    border-radius: 999px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.2s ease;
+}
+
+.radar-toggle-btn:hover {
+    background: var(--color-green);
+    color: #FFFFFF;
+    border-color: var(--color-green);
+    box-shadow: 0 2px 8px rgba(46, 90, 54, 0.25);
+}
+
+/* --- 4. Self-Drawing Pitch SVG Lines --- */
+.pitch-svg-lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.pitch-line {
+    stroke: rgba(255, 255, 255, 0.55);
+    stroke-width: 2.2px;
+    fill: none;
+    stroke-dasharray: 1200;
+    stroke-dashoffset: 1200;
+    transition: stroke-dashoffset 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.pitch.active .pitch-line {
+    stroke-dashoffset: 0;
+}
+
+.pitch-dot {
+    fill: rgba(255, 255, 255, 0.7);
+    opacity: 0;
+    transition: opacity 0.5s ease 1s;
+}
+
+.pitch.active .pitch-dot {
+    opacity: 1;
+}
+
+/* --- 5. Match Card Action Buttons Cluster --- */
+.match-actions-cluster {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.match-action-link.live-broadcast-link {
+    background: var(--color-green-light);
+    color: var(--color-green);
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(46, 90, 54, 0.2);
+}
+
+.match-action-link.live-broadcast-link:hover {
+    background: var(--color-green);
+    color: #FFFFFF;
+    box-shadow: 0 4px 12px rgba(46, 90, 54, 0.25);
+}
+
+/* --- 6. Reduced Motion Accessibility Overrides --- */
+@media (prefers-reduced-motion: reduce) {
+    .stadium-intro {
+        display: none !important;
+    }
+    .fut-card {
+        transition: none !important;
+        transform: none !important;
+    }
+    .fut-card::after {
+        animation: none !important;
+    }
+    .floodlight-beam {
+        animation: none !important;
+    }
+    .pitch-line {
+        stroke-dashoffset: 0 !important;
+        transition: none !important;
+    }
+    .hero-particles {
+        display: none !important;
+    }
+    .radar-data-polygon {
+        animation: none !important;
+    }
+}

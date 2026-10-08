@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Hak Ashiq M - Full-Stack | Backend Developer Portfolio. A premium football-themed scout report showcasing development skills, projects, and achievements.">
-    <title>Hak Ashiq M | Full-Stack | Backend Developer Scout Report</title>
+    <meta name="description" content="Hak Ashiq M - Full-Stack Developer Portfolio. A premium football-themed scout report showcasing development skills, projects, and achievements.">
+    <title>Hak Ashiq M | Full-Stack Developer Scout Report</title>
     <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚽</text></svg>">
     <!-- Google Fonts -->
@@ -17,6 +17,25 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- STADIUM TUNNEL WALK-OUT INTRO / LOADER -->
+    <div id="stadium-intro" class="stadium-intro" aria-hidden="true">
+        <div class="intro-tunnel-bg">
+            <div class="intro-floodlights"></div>
+            <div class="intro-crowd-silhouette"></div>
+        </div>
+        <div class="intro-content">
+            <div class="intro-badge"><i class="fa-solid fa-bolt"></i> MATCH DAY // SCOUT REPORT</div>
+            <div class="intro-matchup">
+                <span class="intro-team">HAK ASHIQ M</span>
+                <span class="intro-vs">VS</span>
+                <span class="intro-team opponent">ENGINEERING CHALLENGES</span>
+            </div>
+            <div class="intro-countdown" id="intro-countdown">KICK OFF</div>
+            <p class="intro-sub">Walking out of the stadium tunnel...</p>
+            <button class="intro-skip-btn" id="intro-skip-btn" type="button">Skip Intro ✕</button>
+        </div>
+    </div>
+
     <!-- Sound Effects / Ambient Whistle Control (Hidden Audio) -->
     <audio id="whistle-sound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-84.wav" preload="auto"></audio>
     <audio id="crowd-sound" src="https://assets.mixkit.co/active_storage/sfx/2083/2083-84.wav" preload="auto" loop></audio>
@@ -57,11 +76,17 @@
     <main>
         <!-- SECTION 1: OVERVIEW (HERO) -->
         <section id="overview" class="section hero-section">
+            <div class="floodlight-beam beam-left" aria-hidden="true"></div>
+            <div class="floodlight-beam beam-right" aria-hidden="true"></div>
+            <div class="hero-atmosphere-stripes" aria-hidden="true"></div>
+
             <div class="section-container hero-container">
                 
                 <!-- FIFA FUT CARD (Left) -->
-                <div class="fut-card-wrapper">
-                    <div class="fut-card animate-float">
+                <div class="fut-card-wrapper" id="fut-card-wrapper">
+                    <canvas id="hero-particles" class="hero-particles" aria-hidden="true"></canvas>
+                    <div class="fut-card animate-float" id="fut-card">
+                        <div class="fut-card-foil" aria-hidden="true"></div>
                         <div class="fut-card-inner">
                             <div class="fut-card-top">
                                 <div class="rating-pos">
@@ -83,22 +108,67 @@
                             </div>
                             <div class="fut-card-bottom">
                                 <div class="player-name">H. ASHIQ M</div>
-                                <div class="player-title">FULL-STACK | BACKEND DEVELOPER</div>
+                                <div class="player-title">FULL-STACK DEVELOPER</div>
                                 <hr class="card-divider">
-                                <div class="player-stats">
-                                    <div class="stat-col">
-                                        <div class="stat-item"><span class="stat-val">92</span> <span class="stat-lbl">COD</span></div>
-                                        <div class="stat-item"><span class="stat-val">89</span> <span class="stat-lbl">SYS</span></div>
-                                        <div class="stat-item"><span class="stat-val">90</span> <span class="stat-lbl">DB</span></div>
+                                
+                                <!-- Card Views Container (Stats vs Radar) -->
+                                <div class="card-display-switcher">
+                                    <div class="player-stats" id="player-stats-view">
+                                        <div class="stat-col">
+                                            <div class="stat-item"><span class="stat-val" data-target="92">92</span> <span class="stat-lbl">COD</span></div>
+                                            <div class="stat-item"><span class="stat-val" data-target="89">89</span> <span class="stat-lbl">SYS</span></div>
+                                            <div class="stat-item"><span class="stat-val" data-target="90">90</span> <span class="stat-lbl">DB</span></div>
+                                        </div>
+                                        <div class="stat-col">
+                                            <div class="stat-item"><span class="stat-val" data-target="93">93</span> <span class="stat-lbl">API</span></div>
+                                            <div class="stat-item"><span class="stat-val" data-target="88">88</span> <span class="stat-lbl">AI</span></div>
+                                            <div class="stat-item"><span class="stat-val" data-target="95">95</span> <span class="stat-lbl">TEM</span></div>
+                                        </div>
                                     </div>
-                                    <div class="stat-col">
-                                        <div class="stat-item"><span class="stat-val">93</span> <span class="stat-lbl">API</span></div>
-                                        <div class="stat-item"><span class="stat-val">88</span> <span class="stat-lbl">AI</span></div>
-                                        <div class="stat-item"><span class="stat-val">95</span> <span class="stat-lbl">TEM</span></div>
+
+                                    <!-- Animated Hexagonal Radar Chart (Inline SVG) -->
+                                    <div class="fut-radar-container" id="player-radar-view" aria-hidden="true">
+                                        <svg class="fut-radar-svg" viewBox="0 0 160 160">
+                                            <!-- Web Grid 100% -->
+                                            <polygon class="radar-grid" points="80,25 127.6,52.5 127.6,107.5 80,135 32.4,107.5 32.4,52.5" />
+                                            <!-- Web Grid 66% -->
+                                            <polygon class="radar-grid" points="80,43.3 111.4,61.7 111.4,98.3 80,116.7 48.6,98.3 48.6,61.7" />
+                                            <!-- Web Grid 33% -->
+                                            <polygon class="radar-grid" points="80,61.7 95.7,70.8 95.7,89.2 80,98.3 64.3,89.2 64.3,70.8" />
+                                            <!-- Axes lines -->
+                                            <line class="radar-axis" x1="80" y1="80" x2="80" y2="25" />
+                                            <line class="radar-axis" x1="80" y1="80" x2="127.6" y2="52.5" />
+                                            <line class="radar-axis" x1="80" y1="80" x2="127.6" y2="107.5" />
+                                            <line class="radar-axis" x1="80" y1="80" x2="80" y2="135" />
+                                            <line class="radar-axis" x1="80" y1="80" x2="32.4" y2="107.5" />
+                                            <line class="radar-axis" x1="80" y1="80" x2="32.4" y2="52.5" />
+                                            <!-- Data Polygon: COD 92%, SYS 89%, DB 90%, API 93%, AI 88%, TEM 95% -->
+                                            <polygon class="radar-data-polygon" points="80,29.4 122.4,55.5 122.9,104.8 80,131.2 38.1,104.2 34.8,53.9" />
+                                            <!-- Vertex dots -->
+                                            <circle class="radar-dot" cx="80" cy="29.4" r="2.5" />
+                                            <circle class="radar-dot" cx="122.4" cy="55.5" r="2.5" />
+                                            <circle class="radar-dot" cx="122.9" cy="104.8" r="2.5" />
+                                            <circle class="radar-dot" cx="80" cy="131.2" r="2.5" />
+                                            <circle class="radar-dot" cx="38.1" cy="104.2" r="2.5" />
+                                            <circle class="radar-dot" cx="34.8" cy="53.9" r="2.5" />
+                                            <!-- Labels -->
+                                            <text class="radar-label" x="80" y="18" text-anchor="middle">COD 92</text>
+                                            <text class="radar-label" x="135" y="52" text-anchor="start">SYS 89</text>
+                                            <text class="radar-label" x="135" y="112" text-anchor="start">DB 90</text>
+                                            <text class="radar-label" x="80" y="148" text-anchor="middle">API 93</text>
+                                            <text class="radar-label" x="25" y="112" text-anchor="end">AI 88</text>
+                                            <text class="radar-label" x="25" y="52" text-anchor="end">TEM 95</text>
+                                        </svg>
                                     </div>
                                 </div>
-                                <div class="card-crest">
-                                    <i class="fa-solid fa-shield-halved"></i>
+
+                                <div class="card-footer-action">
+                                    <button type="button" class="radar-toggle-btn" id="radar-toggle-btn" aria-label="Toggle Radar Chart View">
+                                        <i class="fa-solid fa-chart-pie"></i> <span class="toggle-label">RADAR VIEW</span>
+                                    </button>
+                                    <div class="card-crest">
+                                        <i class="fa-solid fa-shield-halved"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -109,7 +179,7 @@
                 <div class="scout-report-details">
                     <span class="report-badge">OFFICIAL SCOUT REPORT</span>
                     <h1 class="main-title">HAK ASHIQ M</h1>
-                    <h2 class="sub-title">Full-Stack | Backend Developer // Central Midfield Engine</h2>
+                    <h2 class="sub-title">Full-Stack Developer // Central Midfield Engine</h2>
                     
                     <p class="scout-description">
                         Operating as a versatile box-to-box midfielder in the tech stack, Hak Ashiq M bridges the defensive line (databases) and the attacking line (front-end interfaces) with precision. Highly efficient in structuring modular APIs, debugging complex microservices, and deploying intelligent features.
@@ -119,7 +189,7 @@
                     <div class="metadata-grid">
                         <div class="meta-item">
                             <span class="meta-lbl">Preferred Foot</span>
-                            <span class="meta-val">Right (Java / C)</span>
+                            <span class="meta-val">Right (Java / SQL)</span>
                         </div>
                         <div class="meta-item">
                             <span class="meta-lbl">Work Rate</span>
@@ -183,7 +253,27 @@
                     <!-- The Interactive Football Pitch -->
                     <div class="pitch-container">
                         <div class="pitch">
-                            <!-- Pitch Lines -->
+                            <!-- Self-Drawing SVG Pitch Lines Overlay -->
+                            <svg class="pitch-svg-lines" viewBox="0 0 500 700" preserveAspectRatio="none" aria-hidden="true">
+                                <rect class="pitch-line pitch-boundary" x="15" y="15" width="470" height="670" rx="8" />
+                                <line class="pitch-line center-division" x1="15" y1="350" x2="485" y2="350" />
+                                <circle class="pitch-line center-circle-svg" cx="250" cy="350" r="65" />
+                                <circle class="pitch-dot" cx="250" cy="350" r="4" />
+                                <rect class="pitch-line penalty-box-top" x="125" y="15" width="250" height="115" />
+                                <rect class="pitch-line goal-box-top" x="185" y="15" width="130" height="40" />
+                                <path class="pitch-line penalty-arc-top" d="M 195 130 A 55 55 0 0 0 305 130" />
+                                <circle class="pitch-dot" cx="250" cy="90" r="3.5" />
+                                <rect class="pitch-line penalty-box-bottom" x="125" y="570" width="250" height="115" />
+                                <rect class="pitch-line goal-box-bottom" x="185" y="645" width="130" height="40" />
+                                <path class="pitch-line penalty-arc-bottom" d="M 195 570 A 55 55 0 0 1 305 570" />
+                                <circle class="pitch-dot" cx="250" cy="610" r="3.5" />
+                                <path class="pitch-line corner-arc" d="M 15 40 A 25 25 0 0 0 40 15" />
+                                <path class="pitch-line corner-arc" d="M 460 15 A 25 25 0 0 0 485 40" />
+                                <path class="pitch-line corner-arc" d="M 15 660 A 25 25 0 0 1 40 685" />
+                                <path class="pitch-line corner-arc" d="M 460 685 A 25 25 0 0 1 485 660" />
+                            </svg>
+
+                            <!-- Pitch Lines (CSS Fallback) -->
                             <div class="pitch-border"></div>
                             <div class="penalty-area top">
                                 <div class="penalty-arc"></div>
@@ -223,9 +313,9 @@
                                 <div class="jersey">6</div>
                                 <div class="player-pin-name">Java</div>
                             </div>
-                            <div class="player-node pin-midfield" data-skill="clanguage" style="--target-top: 50%; --target-left: 80%; --delay: 0.4s;">
+                            <div class="player-node pin-midfield" data-skill="sql" style="--target-top: 50%; --target-left: 80%; --delay: 0.4s;">
                                 <div class="jersey">7</div>
-                                <div class="player-pin-name">C Language</div>
+                                <div class="player-pin-name">SQL</div>
                             </div>
                             <div class="player-node pin-midfield" data-skill="oop" style="--target-top: 60%; --target-left: 50%; --delay: 0.5s;">
                                 <div class="jersey">18</div>
@@ -345,7 +435,10 @@
                         </div>
                         <div class="match-card-footer">
                             <span class="match-date"><i class="fa-regular fa-calendar"></i> Season 2024</span>
-                            <a href="https://github.com" target="_blank" class="match-action-link">View Game Tape <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                            <div class="match-actions-cluster">
+                                <a href="https://interviewiq-frontend-inwa.onrender.com" target="_blank" rel="noopener noreferrer" class="match-action-link live-broadcast-link"><i class="fa-solid fa-tower-broadcast"></i> Live Broadcast</a>
+                                <a href="https://github.com/Hakashiq" target="_blank" rel="noopener noreferrer" class="match-action-link">Game Tape <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                            </div>
                         </div>
                     </div>
 
@@ -379,7 +472,10 @@
                         </div>
                         <div class="match-card-footer">
                             <span class="match-date"><i class="fa-regular fa-calendar"></i> Season 2024</span>
-                            <a href="https://github.com" target="_blank" class="match-action-link">View Game Tape <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                            <div class="match-actions-cluster">
+                                <a href="https://rent-tech-rental-marketplace.vercel.app" target="_blank" rel="noopener noreferrer" class="match-action-link live-broadcast-link"><i class="fa-solid fa-tower-broadcast"></i> Live Broadcast</a>
+                                <a href="https://github.com/Hakashiq" target="_blank" rel="noopener noreferrer" class="match-action-link">Game Tape <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                            </div>
                         </div>
                     </div>
 

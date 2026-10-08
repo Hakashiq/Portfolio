@@ -60,15 +60,15 @@ const skillDatabase = {
             "Multithreading & Concurrency Control"
         ]
     },
-    clanguage: {
-        name: "C Language",
-        rating: 85,
-        position: "Midfield (System Logic)",
-        notes: "Solid foundation in procedural programming, memory management, and pointers. Utilized to build efficient system-level utility scripts and study low-level hardware interactions.",
+    sql: {
+        name: "SQL & Relational DBs",
+        rating: 89,
+        position: "Midfield (Database Architecture)",
+        notes: "Master of database schemas, relational integrity, and high-performance querying. Adept at query tuning, normalization, complex joins, and transaction consistency.",
         plays: [
-            "Manual Memory Allocation (malloc/free)",
-            "Pointer Manipulation & Pointer Arithmetic",
-            "Data Structures Implementation from Scratch"
+            "Relational Schema Design & Normalization",
+            "Complex Joins & Aggregation Queries",
+            "Transaction Isolation & ACID Compliance"
         ]
     },
     oop: {
@@ -470,4 +470,330 @@ document.addEventListener('DOMContentLoaded', () => {
         
         pitchObserver.observe(pitch);
     }
+});
+
+/* ==========================================================================
+   PHASE 1: LIVING FUT CARD, STADIUM LOADER & ATMOSPHERE MODULES
+   ========================================================================== */
+
+// --- Module 1: Stadium Tunnel Walk-Out Intro / Loader ---
+function initStadiumLoader() {
+    try {
+        const intro = document.getElementById('stadium-intro');
+        if (!intro) return;
+
+        const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const alreadySeen = sessionStorage.getItem('kickoffSeen');
+
+        if (isReducedMotion || alreadySeen === 'true') {
+            intro.classList.add('intro-hidden');
+            setTimeout(() => intro.remove(), 600);
+            return;
+        }
+
+        let isDismissed = false;
+        const dismissLoader = () => {
+            if (isDismissed) return;
+            isDismissed = true;
+            intro.classList.add('intro-hidden');
+            sessionStorage.setItem('kickoffSeen', 'true');
+            setTimeout(() => intro.remove(), 600);
+        };
+
+        const skipBtn = document.getElementById('intro-skip-btn');
+        if (skipBtn) skipBtn.addEventListener('click', dismissLoader);
+        intro.addEventListener('click', dismissLoader);
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' || e.key === ' ' || e.key === 'Enter') dismissLoader();
+        });
+
+        // Auto dismiss after 1.8s
+        setTimeout(dismissLoader, 1800);
+    } catch (err) {
+        console.warn('initStadiumLoader error:', err);
+    }
+}
+
+// --- Module 2: Living FUT Card 3D Tilt & Holographic Foil ---
+function initHeroTilt() {
+    try {
+        const wrapper = document.getElementById('fut-card-wrapper');
+        const card = document.getElementById('fut-card');
+        if (!wrapper || !card) return;
+
+        // Skip mouse-tracking on touch-only devices, let gentle idle float take over
+        const isTouch = window.matchMedia('(hover: none)').matches;
+        if (isTouch) return;
+
+        let rafId = null;
+        let targetRotateX = 0;
+        let targetRotateY = 0;
+        let foilX = 50;
+        let foilY = 50;
+
+        const onMouseMove = (e) => {
+            const rect = wrapper.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+
+            // Clamped max tilt ±12deg
+            targetRotateX = Math.max(-12, Math.min(12, ((y - centerY) / centerY) * -12));
+            targetRotateY = Math.max(-12, Math.min(12, ((x - centerX) / centerX) * 12));
+
+            foilX = Math.round((x / rect.width) * 100);
+            foilY = Math.round((y / rect.height) * 100);
+
+            if (!rafId) {
+                rafId = requestAnimationFrame(updateCardTransform);
+            }
+        };
+
+        const updateCardTransform = () => {
+            card.classList.remove('animate-float');
+            card.style.transform = `perspective(1000px) rotateX(${targetRotateX.toFixed(2)}deg) rotateY(${targetRotateY.toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`;
+            card.style.setProperty('--foil-x', `${foilX}%`);
+            card.style.setProperty('--foil-y', `${foilY}%`);
+            card.style.setProperty('--foil-opacity', '0.7');
+            rafId = null;
+        };
+
+        const onMouseLeave = () => {
+            if (rafId) {
+                cancelAnimationFrame(rafId);
+                rafId = null;
+            }
+            card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+            card.style.setProperty('--foil-opacity', '0');
+            setTimeout(() => {
+                card.classList.add('animate-float');
+            }, 300);
+        };
+
+        wrapper.addEventListener('mousemove', onMouseMove, { passive: true });
+        wrapper.addEventListener('mouseleave', onMouseLeave, { passive: true });
+    } catch (err) {
+        console.warn('initHeroTilt error:', err);
+    }
+}
+
+// --- Module 3: Ambient Golden Particles Behind FUT Card ---
+function initHeroParticles() {
+    try {
+        const canvas = document.getElementById('hero-particles');
+        if (!canvas) return;
+
+        // Skip on mobile or prefers-reduced-motion
+        if (window.innerWidth <= 768 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            canvas.style.display = 'none';
+            return;
+        }
+
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+
+        canvas.width = 480;
+        canvas.height = 600;
+
+        const particles = [];
+        const count = 35;
+        for (let i = 0; i < count; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 2 + 0.8,
+                vx: (Math.random() - 0.5) * 0.4,
+                vy: -(Math.random() * 0.6 + 0.3),
+                alpha: Math.random() * 0.6 + 0.2,
+                color: Math.random() > 0.4 ? 'rgba(201, 148, 85,' : 'rgba(46, 90, 54,'
+            });
+        }
+
+        let isRunning = true;
+        let animFrameId = null;
+
+        const render = () => {
+            if (!isRunning) return;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                if (p.y < 0) {
+                    p.y = canvas.height;
+                    p.x = Math.random() * canvas.width;
+                }
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `${p.color}${p.alpha})`;
+                ctx.fill();
+            });
+
+            animFrameId = requestAnimationFrame(render);
+        };
+
+        // Pause canvas loop when hero section is not in viewport
+        const heroSection = document.getElementById('overview');
+        if (heroSection) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        if (!isRunning) {
+                            isRunning = true;
+                            render();
+                        }
+                    } else {
+                        isRunning = false;
+                        if (animFrameId) cancelAnimationFrame(animFrameId);
+                    }
+                });
+            }, { threshold: 0.1 });
+            observer.observe(heroSection);
+        } else {
+            render();
+        }
+    } catch (err) {
+        console.warn('initHeroParticles error:', err);
+    }
+}
+
+// --- Module 4: Stat Numbers Count-Up Animation ---
+function initStatsCountUp() {
+    try {
+        const statElements = document.querySelectorAll('.stat-val[data-target]');
+        if (!statElements.length) return;
+
+        const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (isReducedMotion) {
+            statElements.forEach(el => {
+                el.textContent = el.getAttribute('data-target');
+            });
+            return;
+        }
+
+        let hasRun = false;
+        const runCountUp = () => {
+            if (hasRun) return;
+            hasRun = true;
+
+            const duration = 1200; // 1.2s
+            const startTime = performance.now();
+
+            const update = (now) => {
+                const elapsed = now - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                // Ease out expo
+                const easeProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+
+                statElements.forEach(el => {
+                    const target = parseInt(el.getAttribute('data-target'), 10) || 90;
+                    const current = Math.floor(easeProgress * target);
+                    el.textContent = current;
+                });
+
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                } else {
+                    statElements.forEach(el => {
+                        el.textContent = el.getAttribute('data-target');
+                    });
+                }
+            };
+
+            requestAnimationFrame(update);
+        };
+
+        const hero = document.getElementById('overview');
+        if (hero) {
+            const observer = new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        runCountUp();
+                        obs.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.2 });
+            observer.observe(hero);
+        } else {
+            runCountUp();
+        }
+    } catch (err) {
+        console.warn('initStatsCountUp error:', err);
+    }
+}
+
+// --- Module 5: Radar Chart Switcher & Polygon Animation ---
+function initRadarChart() {
+    try {
+        const toggleBtn = document.getElementById('radar-toggle-btn');
+        const statsView = document.getElementById('player-stats-view');
+        const radarView = document.getElementById('player-radar-view');
+        if (!toggleBtn || !statsView || !radarView) return;
+
+        let showingRadar = false;
+
+        toggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            showingRadar = !showingRadar;
+
+            if (showingRadar) {
+                statsView.classList.add('view-hidden');
+                radarView.classList.add('view-active');
+                toggleBtn.innerHTML = `<i class="fa-solid fa-list-ol"></i> <span class="toggle-label">STATS VIEW</span>`;
+
+                // Re-trigger polygon draw animation
+                const polygon = radarView.querySelector('.radar-data-polygon');
+                if (polygon) {
+                    polygon.style.animation = 'none';
+                    polygon.offsetHeight; // trigger reflow
+                    polygon.style.animation = 'radarPolygonExpand 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards';
+                }
+            } else {
+                radarView.classList.remove('view-active');
+                statsView.classList.remove('view-hidden');
+                toggleBtn.innerHTML = `<i class="fa-solid fa-chart-pie"></i> <span class="toggle-label">RADAR VIEW</span>`;
+            }
+        });
+    } catch (err) {
+        console.warn('initRadarChart error:', err);
+    }
+}
+
+// --- Module 6: Parallax Atmosphere Beams on Scroll ---
+function initAtmosphereParallax() {
+    try {
+        if (window.innerWidth <= 768 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+        const beamLeft = document.querySelector('.floodlight-beam.beam-left');
+        const beamRight = document.querySelector('.floodlight-beam.beam-right');
+        if (!beamLeft && !beamRight) return;
+
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    const scrollY = window.scrollY;
+                    if (scrollY < 1200) {
+                        if (beamLeft) beamLeft.style.transform = `translateY(${scrollY * 0.15}px) rotate(${scrollY * 0.01}deg)`;
+                        if (beamRight) beamRight.style.transform = `translateY(${scrollY * 0.18}px) rotate(${-scrollY * 0.01}deg)`;
+                    }
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }, { passive: true });
+    } catch (err) {
+        console.warn('initAtmosphereParallax error:', err);
+    }
+}
+
+// Initialize Phase 1 modules on DOMContentLoaded
+document.addEventListener('DOMContentLoaded', () => {
+    initStadiumLoader();
+    initHeroTilt();
+    initHeroParticles();
+    initStatsCountUp();
+    initRadarChart();
+    initAtmosphereParallax();
 });
