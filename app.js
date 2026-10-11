@@ -93,17 +93,6 @@ const skillDatabase = {
             "Complex Joins & View Configurations"
         ]
     },
-    mongodb: {
-        name: "MongoDB",
-        rating: 85,
-        position: "Defense (NoSQL Document)",
-        notes: "Flexible fullback handling unstructured datasets. Proficient in managing document references, aggregation pipelines, and rapid prototyping workflows.",
-        plays: [
-            "NoSQL Schema Modelling",
-            "Document Aggregation Pipelines",
-            "Index Configurations for Read Speed"
-        ]
-    },
     redis: {
         name: "Redis",
         rating: 88,
@@ -385,22 +374,43 @@ function handleFormSubmit(e) {
     })
     .then(response => response.json())
     .then(data => {
+        // Paparazzi camera flash across the press room
+        const cameraFlash = document.getElementById('camera-flash');
+        if (cameraFlash) {
+            cameraFlash.classList.add('flash-burst');
+            setTimeout(() => cameraFlash.classList.remove('flash-burst'), 600);
+        }
+
+        // Celebrate successful transfer negotiation with confetti
+        if (typeof window.triggerCelebrationConfetti === 'function') {
+            window.triggerCelebrationConfetti(window.innerWidth / 2, window.innerHeight / 2, ['#2E5A36', '#D4AF37', '#1E3E26', '#E6C665'], 60);
+        }
+
         // Append entry to live press ticker feed
-        addTickerItem("BREAKING NEWS", `Scout **${nameVal}** representing **${orgVal}** has officially entered the press room! Direct inquiry submitted: "${msgVal.substring(0, 50)}..."`);
+        addTickerItem("TRANSFER TALKS OPEN", `Scout **${nameVal}** representing **${orgVal}** has officially opened transfer talks! Proposal: "${msgVal.substring(0, 50)}..."`);
         
-        // Show Success Feedback UI inside the form
+        // Show Success Feedback UI inside the form with requested copy
         const formContainer = document.querySelector('.press-form-container');
         formContainer.innerHTML = `
             <div style="text-align: center; padding: 40px 20px; color: var(--color-green); animation: slideIn 0.4s ease-out;">
-                <i class="fa-solid fa-circle-check" style="font-size: 4.5rem; margin-bottom: 20px; color: var(--color-green);"></i>
-                <h3 style="font-size: 1.8rem; margin-bottom: 12px; font-family: var(--font-heading);">Contract Inquiry Sent!</h3>
-                <p style="color: var(--text-secondary); margin-bottom: 24px;">Your question has been sent directly to Hak Ashiq M's agent (thakashiq@gmail.com). Fabrizio Romano is preparing the 'Here We Go' announcement.</p>
+                <i class="fa-solid fa-handshake" style="font-size: 4.5rem; margin-bottom: 20px; color: var(--color-gold);"></i>
+                <h3 style="font-size: 1.8rem; margin-bottom: 12px; font-family: var(--font-heading);">Message received — transfer talks open!</h3>
+                <p style="color: var(--text-secondary); margin-bottom: 24px;">Your proposal has been dispatched directly to Hak Ashiq M's agent (thakashiq@gmail.com). Match scouting sheet dispatched.</p>
                 <button id="reset-form-btn" class="btn btn-primary" style="margin: 0 auto; display: inline-flex;"><i class="fa-solid fa-arrow-rotate-left"></i> Submit Another Inquiry</button>
             </div>
         `;
         
         document.getElementById('reset-form-btn').addEventListener('click', () => {
-            location.reload(); // Simple reload to restore the original form HTML state
+            if (formContainer && originalFormHTML) {
+                formContainer.innerHTML = originalFormHTML;
+                const newForm = document.getElementById('scout-contact-form');
+                if (newForm) {
+                    newForm.addEventListener('submit', handleFormSubmit);
+                }
+                if (typeof initMagneticButtons === 'function') {
+                    initMagneticButtons();
+                }
+            }
         });
     })
     .catch(err => {
@@ -411,6 +421,10 @@ function handleFormSubmit(e) {
         alert("Failed to submit form to email. Please try again.");
     });
 }
+
+// Initial form cache for safe in-place reset (prevents file:// frame reload error)
+const pressFormContainer = document.querySelector('.press-form-container');
+const originalFormHTML = pressFormContainer ? pressFormContainer.innerHTML : '';
 
 // Bind the submission listener to the form
 if (contactForm) {
@@ -788,12 +802,643 @@ function initAtmosphereParallax() {
     }
 }
 
-// Initialize Phase 1 modules on DOMContentLoaded
+/* ==========================================================================
+   PHASE 2: PASS NETWORK, SCOREBOARD ROLLERS, SPOTLIGHTS & TROPHY LIFT
+   ========================================================================== */
+
+// --- Module 7: Sports Celebration Confetti Engine ---
+let triggerCelebrationConfetti = () => {};
+
+function initCelebrationConfetti() {
+    try {
+        const canvas = document.getElementById('celebration-canvas');
+        if (!canvas) return;
+
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+
+        const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (isReducedMotion) return;
+
+        const resizeCanvas = () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        };
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas, { passive: true });
+
+        let particles = [];
+        let animId = null;
+
+        const renderLoop = () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const p = particles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vy += p.gravity;
+                p.vx *= p.drag;
+                p.rot += p.rotSpeed;
+                p.alpha -= p.decay;
+
+                if (p.alpha <= 0 || p.y > canvas.height + 20) {
+                    particles.splice(i, 1);
+                    continue;
+                }
+
+                ctx.save();
+                ctx.globalAlpha = Math.max(0, p.alpha);
+                ctx.translate(p.x, p.y);
+                ctx.rotate(p.rot);
+                ctx.fillStyle = p.color;
+
+                if (p.shape === 'circle') {
+                    ctx.beginPath();
+                    ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
+                    ctx.fill();
+                } else {
+                    ctx.fillRect(-p.size / 2, -p.size / 4, p.size, p.size * 0.6);
+                }
+                ctx.restore();
+            }
+
+            if (particles.length > 0) {
+                animId = requestAnimationFrame(renderLoop);
+            } else {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                animId = null;
+            }
+        };
+
+        triggerCelebrationConfetti = (originX, originY, palette = ['#FFD700', '#DAA520', '#2E5A36', '#FFFFFF'], count = 40) => {
+            if (isReducedMotion) return;
+
+            const safeX = originX || window.innerWidth / 2;
+            const safeY = originY || window.innerHeight / 2;
+
+            for (let i = 0; i < count; i++) {
+                const angle = (Math.PI * 2 * Math.random());
+                const speed = 4 + Math.random() * 9;
+                particles.push({
+                    x: safeX,
+                    y: safeY,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed - 3.5, // upward pop
+                    gravity: 0.22,
+                    drag: 0.98,
+                    size: 5 + Math.random() * 6,
+                    color: palette[Math.floor(Math.random() * palette.length)],
+                    rot: Math.random() * Math.PI * 2,
+                    rotSpeed: (Math.random() - 0.5) * 0.25,
+                    alpha: 1,
+                    decay: 0.012 + Math.random() * 0.014,
+                    shape: Math.random() > 0.4 ? 'rect' : 'circle'
+                });
+            }
+
+            if (!animId) {
+                animId = requestAnimationFrame(renderLoop);
+            }
+        };
+
+        // Expose globally
+        window.triggerCelebrationConfetti = triggerCelebrationConfetti;
+    } catch (err) {
+        console.warn('initCelebrationConfetti error:', err);
+    }
+}
+
+// --- Module 8: Tactical Pitch Pass Network & Dynamic Heat-Zone ---
+function initPassNetwork() {
+    try {
+        const pitch = document.querySelector('.pitch');
+        const heatZone = document.getElementById('player-heat-zone');
+        const lanes = document.querySelectorAll('.pass-lane');
+        const nodes = document.querySelectorAll('.player-node');
+        if (!pitch || !lanes.length) return;
+
+        const skillPositions = {
+            react: { cx: 125, cy: 140 },
+            llm: { cx: 250, cy: 105 },
+            css: { cx: 375, cy: 140 },
+            springboot: { cx: 250, cy: 315 },
+            java: { cx: 100, cy: 350 },
+            sql: { cx: 400, cy: 350 },
+            oop: { cx: 250, cy: 420 },
+            mysql: { cx: 160, cy: 546 },
+            redis: { cx: 340, cy: 546 },
+            git: { cx: 250, cy: 630 }
+        };
+
+        const highlightPlayerLanes = (skillKey) => {
+            if (!skillKey) return;
+
+            // Move & illuminate dynamic heat zone
+            const pos = skillPositions[skillKey];
+            if (pos && heatZone) {
+                heatZone.setAttribute('cx', pos.cx);
+                heatZone.setAttribute('cy', pos.cy);
+                heatZone.classList.add('active');
+            }
+
+            // Highlight connected passing lanes, dim others
+            lanes.forEach(lane => {
+                const connected = (lane.getAttribute('data-players') || '').split(' ');
+                if (connected.includes(skillKey)) {
+                    lane.classList.add('highlighted');
+                    lane.classList.remove('dimmed');
+                } else {
+                    lane.classList.add('dimmed');
+                    lane.classList.remove('highlighted');
+                }
+            });
+
+            // Re-trigger animated fill of the skill rating bar
+            setTimeout(() => {
+                const fillBar = document.querySelector('.scout-notes-panel .rating-bar-fill');
+                if (fillBar) {
+                    fillBar.classList.remove('fill-animate');
+                    void fillBar.offsetWidth; // trigger reflow
+                    fillBar.classList.add('fill-animate');
+                }
+            }, 180);
+        };
+
+        const resetPlayerLanes = () => {
+            lanes.forEach(lane => {
+                lane.classList.remove('highlighted');
+                lane.classList.remove('dimmed');
+            });
+            if (heatZone) {
+                heatZone.classList.remove('active');
+            }
+        };
+
+        nodes.forEach(node => {
+            const skillKey = node.getAttribute('data-skill');
+            node.addEventListener('mouseenter', () => highlightPlayerLanes(skillKey));
+            node.addEventListener('click', () => highlightPlayerLanes(skillKey));
+        });
+
+        pitch.addEventListener('mouseleave', resetPlayerLanes);
+    } catch (err) {
+        console.warn('initPassNetwork error:', err);
+    }
+}
+
+// --- Module 9: Match Day Scoreboard Digit Rollers ---
+function initScoreboards() {
+    try {
+        const badges = document.querySelectorAll('.match-status-badge[data-home]');
+        if (!badges.length) return;
+
+        const rollDigit = (element, targetValue) => {
+            if (!element) return;
+            const target = parseInt(targetValue, 10);
+            if (isNaN(target)) return;
+
+            let current = 0;
+            element.textContent = '0';
+            element.classList.add('rolling');
+
+            const stepTime = Math.max(120, Math.floor(700 / (target + 1)));
+            const interval = setInterval(() => {
+                current++;
+                if (current <= target) {
+                    element.textContent = current;
+                    element.classList.remove('rolling');
+                    void element.offsetWidth;
+                    element.classList.add('rolling');
+                } else {
+                    clearInterval(interval);
+                    element.textContent = target;
+                }
+            }, stepTime);
+        };
+
+        const observer = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const card = entry.target;
+                    card.classList.add('revealed');
+
+                    const badge = card.querySelector('.match-status-badge[data-home]');
+                    if (badge && !badge.dataset.rolled) {
+                        badge.dataset.rolled = 'true';
+                        const homeDigit = badge.querySelector('.home-score');
+                        const awayDigit = badge.querySelector('.away-score');
+                        const homeTarget = badge.getAttribute('data-home') || '0';
+                        const awayTarget = badge.getAttribute('data-away') || '0';
+
+                        rollDigit(homeDigit, homeTarget);
+                        setTimeout(() => rollDigit(awayDigit, awayTarget), 250);
+                    }
+                    obs.unobserve(card);
+                }
+            });
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.match-card').forEach(card => observer.observe(card));
+    } catch (err) {
+        console.warn('initScoreboards error:', err);
+    }
+}
+
+// --- Module 10: Match Card Spotlight Hover & Goal Celebration Bursts ---
+function initMatchSpotlights() {
+    try {
+        const cards = document.querySelectorAll('.match-card');
+        if (!cards.length) return;
+
+        const isFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+        cards.forEach(card => {
+            if (isFinePointer) {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = ((e.clientX - rect.left) / rect.width) * 100;
+                    const y = ((e.clientY - rect.top) / rect.height) * 100;
+                    card.style.setProperty('--spotlight-x', `${x.toFixed(1)}%`);
+                    card.style.setProperty('--spotlight-y', `${y.toFixed(1)}%`);
+                }, { passive: true });
+            }
+
+            // Click trigger for Goal Celebration Confetti Burst
+            card.addEventListener('click', (e) => {
+                const rect = card.getBoundingClientRect();
+                const clickX = e.clientX || (rect.left + rect.width / 2);
+                const clickY = e.clientY || (rect.top + rect.height / 2);
+                triggerCelebrationConfetti(clickX, clickY, ['#2E5A36', '#D4AF37', '#1E3E26', '#E6C665'], 35);
+            });
+        });
+    } catch (err) {
+        console.warn('initMatchSpotlights error:', err);
+    }
+}
+
+// --- Module 11: Trophy Cabinet 3D Tilt, Periodic Shine & Trophy Lift Ceremony ---
+function initTrophyInteractions() {
+    try {
+        const trophyCards = document.querySelectorAll('.trophy-card');
+        if (!trophyCards.length) return;
+
+        // 1. Periodic Shine Sweep across trophies
+        let currentTrophyIdx = 0;
+        setInterval(() => {
+            if (document.hidden) return;
+            const card = trophyCards[currentTrophyIdx % trophyCards.length];
+            if (card) {
+                card.classList.add('shine-sweep');
+                setTimeout(() => card.classList.remove('shine-sweep'), 1400);
+            }
+            currentTrophyIdx++;
+        }, 4200);
+
+        // 2. 3D Tilt on Hover for fine pointer desktop
+        const isFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+        trophyCards.forEach(card => {
+            if (isFinePointer) {
+                let rafId = null;
+                let rotX = 0;
+                let rotY = 0;
+
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+
+                    rotX = Math.max(-10, Math.min(10, ((y - centerY) / centerY) * -10));
+                    rotY = Math.max(-10, Math.min(10, ((x - centerX) / centerX) * 10));
+
+                    if (!rafId) {
+                        rafId = requestAnimationFrame(() => {
+                            card.style.transform = `perspective(800px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) translateY(-8px)`;
+                            rafId = null;
+                        });
+                    }
+                }, { passive: true });
+
+                card.addEventListener('mouseleave', () => {
+                    if (rafId) {
+                        cancelAnimationFrame(rafId);
+                        rafId = null;
+                    }
+                    card.style.transform = '';
+                });
+            }
+
+            // 3. Trophy Click: Trophy Lift Animation + Gold Confetti Shower + Commentary Feed
+            card.addEventListener('click', (e) => {
+                if (card.classList.contains('lifting')) return;
+                card.classList.add('lifting');
+                setTimeout(() => card.classList.remove('lifting'), 900);
+
+                const rect = card.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+
+                // Gold and trophy celebration palette
+                triggerCelebrationConfetti(centerX, centerY, ['#FFD700', '#DAA520', '#FFFFFF', '#B8860B', '#F59E0B'], 55);
+
+                // Add to live media ticker feed
+                const trophyTitle = card.getAttribute('data-trophy') || card.querySelector('.trophy-title')?.textContent || 'Major Trophy';
+                if (typeof addTickerItem === 'function') {
+                    addTickerItem("TROPHY ROOM", `Honour unlocked: **${trophyTitle}** celebrated by scouts and supporters!`);
+                }
+            });
+        });
+    } catch (err) {
+        console.warn('initTrophyInteractions error:', err);
+    }
+}
+
+/* ==========================================================================
+   PHASE 3: TRANSFER TIMELINE, PRESS ROOM FLASH & GLOBAL POLISH
+   ========================================================================== */
+
+// --- Module 12: Transfer History Scroll-Linked Progress & Official Stamp Slam ---
+function initTimelineScroll() {
+    try {
+        const timeline = document.getElementById('transfers-timeline');
+        const progressBar = document.getElementById('timeline-scroll-progress');
+        if (!timeline || !progressBar) return;
+
+        let ticking = false;
+        const updateTimelineProgress = () => {
+            const rect = timeline.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+            const totalDist = rect.height;
+            const currentDist = (windowHeight * 0.7) - rect.top;
+            const progress = Math.max(0, Math.min(100, (currentDist / totalDist) * 100));
+            progressBar.style.height = `${progress.toFixed(1)}%`;
+            ticking = false;
+        };
+
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(updateTimelineProgress);
+                ticking = true;
+            }
+        }, { passive: true });
+
+        // Official Stamp Slam Screen-Shake on scroll reveal
+        const transferCards = document.querySelectorAll('.transfer-card');
+        const observer = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const card = entry.target;
+                    card.classList.add('revealed');
+
+                    // Subtle screen shake on stamp impact
+                    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                        setTimeout(() => {
+                            document.body.classList.add('stamp-screen-shake');
+                            setTimeout(() => document.body.classList.remove('stamp-screen-shake'), 300);
+                        }, 250);
+                    }
+
+                    obs.unobserve(card);
+                }
+            });
+        }, { threshold: 0.25 });
+
+        transferCards.forEach(card => observer.observe(card));
+    } catch (err) {
+        console.warn('initTimelineScroll error:', err);
+    }
+}
+
+// --- Module 13: Continuous Smooth Ticker Marquee ---
+function initTickerMarquee() {
+    try {
+        const ticker = document.getElementById('feed-ticker-container');
+        if (!ticker) return;
+
+        let isHovered = false;
+        ticker.addEventListener('mouseenter', () => { isHovered = true; });
+        ticker.addEventListener('mouseleave', () => { isHovered = false; });
+
+        // Continuous smooth auto-scroller
+        let scrollPos = 0;
+        const scrollStep = () => {
+            if (!isHovered && ticker.scrollHeight > ticker.clientHeight) {
+                scrollPos += 0.45;
+                if (scrollPos >= ticker.scrollHeight - ticker.clientHeight) {
+                    scrollPos = 0;
+                }
+                ticker.scrollTop = scrollPos;
+            } else {
+                scrollPos = ticker.scrollTop;
+            }
+            requestAnimationFrame(scrollStep);
+        };
+        requestAnimationFrame(scrollStep);
+    } catch (err) {
+        console.warn('initTickerMarquee error:', err);
+    }
+}
+
+// --- Module 14: Magnetic Hover on Interactive Action Buttons ---
+function initMagneticButtons() {
+    try {
+        if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+        const magneticElements = document.querySelectorAll('.btn-submit-press, .action-btn.theme-btn, .whistle-btn');
+        magneticElements.forEach(btn => {
+            btn.addEventListener('mousemove', (e) => {
+                const rect = btn.getBoundingClientRect();
+                const dx = (e.clientX - rect.left - rect.width / 2) * 0.25;
+                const dy = (e.clientY - rect.top - rect.height / 2) * 0.25;
+                btn.style.transform = `translate(${dx.toFixed(1)}px, ${dy.toFixed(1)}px)`;
+            }, { passive: true });
+
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = 'translate(0, 0)';
+            });
+        });
+    } catch (err) {
+        console.warn('initMagneticButtons error:', err);
+    }
+}
+
+// --- Module 15: Day Match / Night Match Theme Persistence ---
+function initThemeToggle() {
+    try {
+        const toggleBtn = document.getElementById('theme-toggle');
+        if (!toggleBtn) return;
+
+        const icon = toggleBtn.querySelector('i');
+        const savedTheme = localStorage.getItem('matchTheme');
+
+        if (savedTheme === 'night') {
+            document.body.classList.add('night-match');
+            if (icon) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            }
+        }
+
+        toggleBtn.addEventListener('click', () => {
+            const isNight = document.body.classList.toggle('night-match');
+            if (icon) {
+                if (isNight) {
+                    icon.classList.remove('fa-moon');
+                    icon.classList.add('fa-sun');
+                } else {
+                    icon.classList.remove('fa-sun');
+                    icon.classList.add('fa-moon');
+                }
+            }
+            localStorage.setItem('matchTheme', isNight ? 'night' : 'day');
+
+            if (typeof addTickerItem === 'function') {
+                addTickerItem("STADIUM CONTROL", isNight ? "Night match floodlights activated. Match underway under the lights!" : "Day match natural sunlight restored.");
+            }
+        });
+    } catch (err) {
+        console.warn('initThemeToggle error:', err);
+    }
+}
+
+// --- Module 16: Section Headings Split-Text / Mask Reveal ---
+function initHeadingMaskReveals() {
+    try {
+        const headings = document.querySelectorAll('.section-title');
+        if (!headings.length) return;
+
+        headings.forEach(h2 => {
+            const rawText = h2.innerHTML;
+            h2.innerHTML = `<span class="title-mask-inner">${rawText}</span>`;
+        });
+
+        const headers = document.querySelectorAll('.section-header');
+        const observer = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    obs.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.2 });
+
+        headers.forEach(h => observer.observe(h));
+    } catch (err) {
+        console.warn('initHeadingMaskReveals error:', err);
+    }
+}
+
+// --- Module 17: Custom Sports Football Cursor with Trailing Physics ---
+function initCustomCursor() {
+    try {
+        if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+        const cursorBall = document.getElementById('cursor-ball');
+        const cursorTrail = document.getElementById('cursor-trail');
+        if (!cursorBall || !cursorTrail) return;
+
+        document.body.classList.add('has-custom-cursor');
+
+        let targetX = window.innerWidth / 2;
+        let targetY = window.innerHeight / 2;
+        let ballX = targetX;
+        let ballY = targetY;
+        let trailX = targetX;
+        let trailY = targetY;
+        let ballRot = 0;
+        let isVisible = false;
+
+        const onPointerMove = (e) => {
+            targetX = e.clientX;
+            targetY = e.clientY;
+
+            if (!isVisible) {
+                isVisible = true;
+                cursorBall.classList.remove('hidden');
+                cursorTrail.classList.remove('hidden');
+            }
+
+            // If hovering over input/textarea, hide custom cursor and restore native cursor
+            const targetTag = e.target.tagName ? e.target.tagName.toLowerCase() : '';
+            const isTextControl = (targetTag === 'input' || targetTag === 'textarea' || targetTag === 'select' || e.target.isContentEditable);
+            if (isTextControl) {
+                cursorBall.classList.add('hidden');
+                cursorTrail.classList.add('hidden');
+            } else {
+                cursorBall.classList.remove('hidden');
+                cursorTrail.classList.remove('hidden');
+            }
+
+            // If hovering over clickable elements, expand trailing ring
+            const isClickable = e.target.closest('a, button, .player-node, .match-card, .trophy-card, .filter-btn, .action-btn');
+            if (isClickable) {
+                cursorTrail.classList.add('hovered');
+            } else {
+                cursorTrail.classList.remove('hovered');
+            }
+        };
+
+        window.addEventListener('mousemove', onPointerMove, { passive: true });
+
+        document.addEventListener('mouseleave', () => {
+            cursorBall.classList.add('hidden');
+            cursorTrail.classList.add('hidden');
+            isVisible = false;
+        });
+
+        document.addEventListener('mouseenter', () => {
+            cursorBall.classList.remove('hidden');
+            cursorTrail.classList.remove('hidden');
+            isVisible = true;
+        });
+
+        // Animation loop with lerp and rotational velocity
+        const renderCursor = () => {
+            const dx = targetX - ballX;
+            const dy = targetY - ballY;
+            ballX += dx * 0.8;
+            ballY += dy * 0.8;
+            ballRot += (dx + dy) * 0.35; // rotate ball proportionally to movement
+
+            trailX += (targetX - trailX) * 0.22;
+            trailY += (targetY - trailY) * 0.22;
+
+            cursorBall.style.transform = `translate(${ballX.toFixed(1)}px, ${ballY.toFixed(1)}px) rotate(${ballRot.toFixed(1)}deg)`;
+            cursorTrail.style.transform = `translate(${trailX.toFixed(1)}px, ${trailY.toFixed(1)}px)`;
+
+            requestAnimationFrame(renderCursor);
+        };
+        requestAnimationFrame(renderCursor);
+    } catch (err) {
+        console.warn('initCustomCursor error:', err);
+    }
+}
+
+// Initialize Phase 1, Phase 2 & Phase 3 modules on DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
+    // Phase 1 Modules
     initStadiumLoader();
     initHeroTilt();
     initHeroParticles();
     initStatsCountUp();
     initRadarChart();
     initAtmosphereParallax();
+
+    // Phase 2 Modules
+    initCelebrationConfetti();
+    initPassNetwork();
+    initScoreboards();
+    initMatchSpotlights();
+    initTrophyInteractions();
+
+    // Phase 3 Modules
+    initTimelineScroll();
+    initTickerMarquee();
+    initMagneticButtons();
+    initThemeToggle();
+    initHeadingMaskReveals();
+    initCustomCursor();
 });

@@ -55,6 +55,9 @@
             <a href="#press-room"><i class="fa-solid fa-microphone"></i> Press Room</a>
         </nav>
         <div class="header-actions">
+            <button id="theme-toggle" title="Toggle Day / Night Match Theme" class="action-btn theme-btn" aria-label="Toggle Match Theme">
+                <i class="fa-solid fa-moon"></i>
+            </button>
             <button id="sound-toggle" title="Play Stadium Sound" class="action-btn">
                 <i class="fa-solid fa-volume-xmark"></i>
             </button>
@@ -253,7 +256,7 @@
                     <!-- The Interactive Football Pitch -->
                     <div class="pitch-container">
                         <div class="pitch">
-                            <!-- Self-Drawing SVG Pitch Lines Overlay -->
+                            <!-- Self-Drawing SVG Pitch Lines & Pass Network Overlay -->
                             <svg class="pitch-svg-lines" viewBox="0 0 500 700" preserveAspectRatio="none" aria-hidden="true">
                                 <rect class="pitch-line pitch-boundary" x="15" y="15" width="470" height="670" rx="8" />
                                 <line class="pitch-line center-division" x1="15" y1="350" x2="485" y2="350" />
@@ -271,6 +274,40 @@
                                 <path class="pitch-line corner-arc" d="M 460 15 A 25 25 0 0 0 485 40" />
                                 <path class="pitch-line corner-arc" d="M 15 660 A 25 25 0 0 1 40 685" />
                                 <path class="pitch-line corner-arc" d="M 460 685 A 25 25 0 0 1 485 660" />
+
+                                <!-- Tactical Pass Network (Passing Lanes & Dynamic Heat-Zone) -->
+                                <g id="pass-network-group" class="pass-network-group">
+                                    <!-- Dynamic Heat Zone under active player -->
+                                    <ellipse id="player-heat-zone" class="player-heat-zone" cx="250" cy="315" rx="55" ry="38" />
+
+                                    <!-- Passing Lines Between Positions -->
+                                    <line class="pass-lane" data-players="git mysql" x1="250" y1="630" x2="160" y2="546" />
+                                    <line class="pass-lane" data-players="git redis" x1="250" y1="630" x2="340" y2="546" />
+                                    <line class="pass-lane" data-players="mysql redis" x1="160" y1="546" x2="340" y2="546" />
+                                    <line class="pass-lane" data-players="mysql java" x1="160" y1="546" x2="100" y2="350" />
+                                    <line class="pass-lane" data-players="mysql oop" x1="160" y1="546" x2="250" y2="420" />
+                                    <line class="pass-lane" data-players="redis sql" x1="340" y1="546" x2="400" y2="350" />
+                                    <line class="pass-lane" data-players="redis oop" x1="340" y1="546" x2="250" y2="420" />
+                                    <line class="pass-lane" data-players="java springboot" x1="100" y1="350" x2="250" y2="315" />
+                                    <line class="pass-lane" data-players="oop springboot" x1="250" y1="420" x2="250" y2="315" />
+                                    <line class="pass-lane" data-players="sql springboot" x1="400" y1="350" x2="250" y2="315" />
+                                    <line class="pass-lane" data-players="springboot react" x1="250" y1="315" x2="125" y2="140" />
+                                    <line class="pass-lane" data-players="springboot llm" x1="250" y1="315" x2="250" y2="105" />
+                                    <line class="pass-lane" data-players="springboot css" x1="250" y1="315" x2="375" y2="140" />
+                                    <line class="pass-lane" data-players="react llm" x1="125" y1="140" x2="250" y2="105" />
+                                    <line class="pass-lane" data-players="css llm" x1="375" y1="140" x2="250" y2="105" />
+
+                                    <!-- Traveling Ball Dots along Core Channels -->
+                                    <circle class="pass-ball ball-center" r="4.5">
+                                        <animateMotion dur="3.6s" repeatCount="indefinite" path="M 250 630 L 250 420 L 250 315 L 250 105" keyTimes="0; 0.3; 0.65; 1" />
+                                    </circle>
+                                    <circle class="pass-ball ball-left" r="4.5">
+                                        <animateMotion dur="4.2s" repeatCount="indefinite" path="M 250 630 L 160 546 L 100 350 L 250 315 L 125 140 L 250 105" keyTimes="0; 0.2; 0.45; 0.7; 0.88; 1" />
+                                    </circle>
+                                    <circle class="pass-ball ball-right" r="4.5">
+                                        <animateMotion dur="3.9s" repeatCount="indefinite" path="M 250 630 L 340 546 L 400 350 L 250 315 L 375 140 L 250 105" keyTimes="0; 0.2; 0.45; 0.7; 0.88; 1" />
+                                    </circle>
+                                </g>
                             </svg>
 
                             <!-- Pitch Lines (CSS Fallback) -->
@@ -323,15 +360,11 @@
                             </div>
 
                             <!-- DEFENSIVE LINE (Databases & Infrastructure) -->
-                            <div class="player-node pin-defense" data-skill="mysql" style="--target-top: 78%; --target-left: 25%; --delay: 0.1s;">
+                            <div class="player-node pin-defense" data-skill="mysql" style="--target-top: 78%; --target-left: 32%; --delay: 0.1s;">
                                 <div class="jersey">3</div>
                                 <div class="player-pin-name">MySQL</div>
                             </div>
-                            <div class="player-node pin-defense" data-skill="mongodb" style="--target-top: 78%; --target-left: 75%; --delay: 0.2s;">
-                                <div class="jersey">4</div>
-                                <div class="player-pin-name">MongoDB</div>
-                            </div>
-                            <div class="player-node pin-defense" data-skill="redis" style="--target-top: 72%; --target-left: 50%; --delay: 0.3s;">
+                            <div class="player-node pin-defense" data-skill="redis" style="--target-top: 78%; --target-left: 68%; --delay: 0.2s;">
                                 <div class="jersey">5</div>
                                 <div class="player-pin-name">Redis</div>
                             </div>
@@ -408,7 +441,12 @@
                     <div class="match-card slide-tackle-left" data-category="ai fullstack">
                         <div class="match-card-header">
                             <span class="match-tournament"><i class="fa-solid fa-robot"></i> AI-ASSISTED CAMPAIGN</span>
-                            <div class="match-status-badge win">WIN // 3 - 2</div>
+                            <div class="match-status-badge win" data-home="3" data-away="2">
+                                <span class="badge-prefix">WIN // </span>
+                                <span class="score-digit home-score">3</span>
+                                <span class="score-sep">-</span>
+                                <span class="score-digit away-score">2</span>
+                            </div>
                         </div>
                         <div class="match-teams">
                             <div class="team">InterviewIQ</div>
@@ -428,9 +466,9 @@
                             <p class="report-lead">Developed a full-stack AI-Assisted mock interview platform that enables resume analysis, skill assessment, adaptive interviews, and personalized learning recommendations.</p>
                             <h4 class="play-by-play-title"><i class="fa-solid fa-list-check"></i> Play-by-Play Key Actions:</h4>
                             <ul class="play-by-play-list">
-                                <li>Designed and developed scalable REST APIs using Spring Boot and MySQL, following clean code principles.</li>
-                                <li>Integrated FastAPI and LLM APIs for automated resume scoring, skill extraction, and answer evaluation.</li>
-                                <li>Optimized query latency and API response performance using Redis caching for high availability.</li>
+                                <li><span class="minute-badge">18'</span> Designed and developed scalable REST APIs using Spring Boot and MySQL, following clean code principles.</li>
+                                <li><span class="minute-badge">54'</span> Integrated FastAPI and LLM APIs for automated resume scoring, skill extraction, and answer evaluation.</li>
+                                <li><span class="minute-badge">89'</span> Optimized query latency and API response performance using Redis caching for high availability.</li>
                             </ul>
                         </div>
                         <div class="match-card-footer">
@@ -446,7 +484,12 @@
                     <div class="match-card reveal-card" data-category="fullstack">
                         <div class="match-card-header">
                             <span class="match-tournament"><i class="fa-solid fa-cart-shopping"></i> E-COMMERCE LEAGUE</span>
-                            <div class="match-status-badge win">WIN // 2 - 0</div>
+                            <div class="match-status-badge win" data-home="2" data-away="0">
+                                <span class="badge-prefix">WIN // </span>
+                                <span class="score-digit home-score">2</span>
+                                <span class="score-sep">-</span>
+                                <span class="score-digit away-score">0</span>
+                            </div>
                         </div>
                         <div class="match-teams">
                             <div class="team">RentTech Marketplace</div>
@@ -465,9 +508,9 @@
                             <p class="report-lead">Constructed a peer-to-peer equipment rental platform emphasizing transactional integrity, secure user authentication, and high backend reliability.</p>
                             <h4 class="play-by-play-title"><i class="fa-solid fa-list-check"></i> Play-by-Play Key Actions:</h4>
                             <ul class="play-by-play-list">
-                                <li>Implemented a robust booking logic engine with conflict detection rules to prevent double-bookings.</li>
-                                <li>Developed secure RESTful API architectures, incorporating Spring Security and stateless JWT authentication.</li>
-                                <li>Optimized database operations using Spring Data JPA indices for rapid item searches and filtering.</li>
+                                <li><span class="minute-badge">23'</span> Implemented a robust booking logic engine with conflict detection rules to prevent double-bookings.</li>
+                                <li><span class="minute-badge">61'</span> Developed secure RESTful API architectures, incorporating Spring Security and stateless JWT authentication.</li>
+                                <li><span class="minute-badge">78'</span> Optimized database operations using Spring Data JPA indices for rapid item searches and filtering.</li>
                             </ul>
                         </div>
                         <div class="match-card-footer">
@@ -483,7 +526,12 @@
                     <div class="match-card slide-tackle-right" data-category="backend">
                         <div class="match-card-header">
                             <span class="match-tournament"><i class="fa-solid fa-server"></i> CORE BACKEND TROPHY</span>
-                            <div class="match-status-badge win">WIN // 1 - 0</div>
+                            <div class="match-status-badge win" data-home="1" data-away="0">
+                                <span class="badge-prefix">WIN // </span>
+                                <span class="score-digit home-score">1</span>
+                                <span class="score-sep">-</span>
+                                <span class="score-digit away-score">0</span>
+                            </div>
                         </div>
                         <div class="match-teams">
                             <div class="team">Hospital Manager Console</div>
@@ -501,9 +549,9 @@
                             <p class="report-lead">Programmed a console-based enterprise system to coordinate physician appointments, patient health logs, and hospital inventory operations.</p>
                             <h4 class="play-by-play-title"><i class="fa-solid fa-list-check"></i> Play-by-Play Key Actions:</h4>
                             <ul class="play-by-play-list">
-                                <li>Managed full CRUD patient data flows over JDBC connections, mapping objects to MySQL records.</li>
-                                <li>Enforced referential database integrity constraints and complex foreign key structural associations.</li>
-                                <li>Applied object-oriented principles (OOP), dry code rules, and the Java Collections Framework for efficient memory indexing.</li>
+                                <li><span class="minute-badge">31'</span> Managed full CRUD patient data flows over JDBC connections, mapping objects to MySQL records.</li>
+                                <li><span class="minute-badge">58'</span> Enforced referential database integrity constraints and complex foreign key structural associations.</li>
+                                <li><span class="minute-badge">84'</span> Applied OOP principles, clean code practices, and the Java Collections Framework for efficient memory indexing.</li>
                             </ul>
                         </div>
                         <div class="match-card-footer">
@@ -526,7 +574,8 @@
 
                 <div class="trophies-grid">
                     <!-- Trophy 1: Kho Kho Tournament Winner -->
-                    <div class="trophy-card trophy-drop" style="--float-delay: 0s;">
+                    <div class="trophy-card trophy-drop" style="--float-delay: 0s;" data-trophy="Tournament Winner">
+                        <div class="trophy-shine" aria-hidden="true"></div>
                         <div class="trophy-icon-container">
                             <div class="trophy-glow"></div>
                             <i class="fa-solid fa-trophy trophy-icon gold"></i>
@@ -537,7 +586,8 @@
                     </div>
 
                     <!-- Trophy 2: Smart India Hackathon Selection -->
-                    <div class="trophy-card trophy-drop" style="--float-delay: 0.2s;">
+                    <div class="trophy-card trophy-drop" style="--float-delay: 0.2s;" data-trophy="SIH Selected">
+                        <div class="trophy-shine" aria-hidden="true"></div>
                         <div class="trophy-icon-container">
                             <div class="trophy-glow"></div>
                             <i class="fa-solid fa-award trophy-icon gold-alt"></i>
@@ -548,7 +598,8 @@
                     </div>
 
                     <!-- Trophy 3: LeetCode Golden Boot -->
-                    <div class="trophy-card trophy-drop" style="--float-delay: 0.4s;">
+                    <div class="trophy-card trophy-drop" style="--float-delay: 0.4s;" data-trophy="Golden Boot (DSA)">
+                        <div class="trophy-shine" aria-hidden="true"></div>
                         <div class="trophy-icon-container">
                             <div class="trophy-glow"></div>
                             <i class="fa-solid fa-shoe-prints trophy-icon boot"></i>
@@ -559,7 +610,8 @@
                     </div>
 
                     <!-- Trophy 4: Gen AI Leader -->
-                    <div class="trophy-card trophy-drop" style="--float-delay: 0.6s;">
+                    <div class="trophy-card trophy-drop" style="--float-delay: 0.6s;" data-trophy="Generative AI Leader">
+                        <div class="trophy-shine" aria-hidden="true"></div>
                         <div class="trophy-icon-container">
                             <div class="trophy-glow"></div>
                             <i class="fa-solid fa-certificate trophy-icon cert"></i>
@@ -581,9 +633,18 @@
                     <p class="section-subtitle">Academic registrations, contract duration, and performance reviews at key educational training academies.</p>
                 </div>
 
-                <div class="transfers-timeline">
+                <div class="transfers-timeline" id="transfers-timeline">
+                    <!-- Scroll-linked Vertical Progress Line -->
+                    <div class="timeline-scroll-rail" aria-hidden="true">
+                        <div class="timeline-scroll-progress" id="timeline-scroll-progress"></div>
+                    </div>
+
                     <!-- Entry 1 -->
                     <div class="transfer-card slide-tackle-left">
+                        <div class="official-stamp-badge" aria-hidden="true">
+                            <span class="stamp-text">OFFICIAL</span>
+                            <span class="stamp-sub">VERIFIED CONTRACT</span>
+                        </div>
                         <div class="transfer-stamp">
                             <div class="stamp-icon stamp-reveal"><i class="fa-solid fa-file-contract"></i></div>
                             <div class="stamp-line"></div>
@@ -596,7 +657,9 @@
                             <div class="performance-metric">
                                 <span class="metric-label">Semester VI Performance Index (CGPA)</span>
                                 <div class="metric-progress-wrapper">
-                                    <div class="metric-progress-bar" style="width: 71.2%;"></div>
+                                    <div class="metric-progress-bar" data-progress="71.2%" style="--metric-target: 71.2%;">
+                                        <div class="metric-progress-fill"></div>
+                                    </div>
                                     <span class="metric-val">7.12 / 10.0</span>
                                 </div>
                             </div>
@@ -605,6 +668,10 @@
 
                     <!-- Entry 2 -->
                     <div class="transfer-card slide-tackle-right">
+                        <div class="official-stamp-badge" aria-hidden="true">
+                            <span class="stamp-text">OFFICIAL</span>
+                            <span class="stamp-sub">ACADEMY GRADUATE</span>
+                        </div>
                         <div class="transfer-stamp">
                             <div class="stamp-icon stamp-reveal"><i class="fa-solid fa-signature"></i></div>
                         </div>
@@ -616,7 +683,9 @@
                             <div class="performance-metric">
                                 <span class="metric-label">HSC Final Examination Rating</span>
                                 <div class="metric-progress-wrapper">
-                                    <div class="metric-progress-bar" style="width: 79%;"></div>
+                                    <div class="metric-progress-bar" data-progress="79%" style="--metric-target: 79%;">
+                                        <div class="metric-progress-fill"></div>
+                                    </div>
                                     <span class="metric-val">79%</span>
                                 </div>
                             </div>
@@ -693,6 +762,9 @@
                 </div>
             </div>
         </section>
+
+        <!-- Dynamic Sports Celebration Canvas (Confetti Bursts) -->
+        <canvas id="celebration-canvas" class="celebration-canvas" aria-hidden="true"></canvas>
     </main>
 
     <!-- FOOTER -->
@@ -712,6 +784,11 @@
             </div>
         </div>
     </footer>
+
+    <!-- Global Broadcast Camera Flash & Custom Sports Cursor Elements -->
+    <div id="camera-flash" class="camera-flash" aria-hidden="true"></div>
+    <div id="cursor-ball" class="cursor-ball" aria-hidden="true">⚽</div>
+    <div id="cursor-trail" class="cursor-trail" aria-hidden="true"></div>
 
     <!-- JS script -->
     <script src="app.js"></script>
