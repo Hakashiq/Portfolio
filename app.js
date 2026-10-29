@@ -8,61 +8,61 @@ const skillDatabase = {
     react: {
         name: "React.js",
         rating: 90,
-        position: "Forward (Frontend UI)",
-        notes: "Acts as the key playmaker in user interfaces. Highly adept at building reactive, modular frontends, managing component states, and integrating interactive dashboards. Provides fluid transitions and crisp user experiences.",
+        position: "Forward (Frontend Playmaker)",
+        notes: "Key playmaker in client-side architectures. Highly adept at building reactive, modular frontends, managing component states, and integrating RESTful APIs and interactive dashboards.",
         plays: [
-            "Component Lifecycle & Hooks Mastery",
+            "Component Lifecycle, Hooks & Virtual DOM",
             "Single Page Application (SPA) Routing",
-            "State Management & API Integration"
+            "Stateless REST API Integration & Data Fetching"
         ]
     },
     llm: {
         name: "FastAPI & LLM APIs",
-        rating: 88,
+        rating: 89,
         position: "Forward (AI Integration)",
-        notes: "Striking capacity in generative AI systems. Expert in parsing resumes, constructing intelligent question-generation prompts, and orchestrating response evaluations via LLM integration.",
+        notes: "Striking capacity in generative AI systems. Expert in parsing resumes, constructing intelligent question-generation prompts, and orchestrating response evaluations via LLM API integration with FastAPI microservices.",
         plays: [
-            "Prompt Engineering & Agents",
-            "FastAPI Microservice Deployment",
-            "LLM API Orchestration (Google/OpenAI)"
+            "LLM API Integration & Prompt Engineering",
+            "FastAPI Microservice Architecture",
+            "Adaptive Questioning & Automated Evaluation"
         ]
     },
     css: {
-        name: "Tailwind & CSS3",
-        rating: 86,
-        position: "Forward (Styling & Design)",
-        notes: "Provides elegant spacing and high aesthetics. Specializes in grid layouts, glassmorphic cards, custom animations, and responsive screen-size configurations.",
+        name: "REST APIs & JWT Auth",
+        rating: 91,
+        position: "Forward (API Gateway & Security)",
+        notes: "Front-line gateway connecting frontend clients with backend microservices. Specializes in RESTful API design, stateless JWT authentication, and secure endpoint communication with role-based access control.",
         plays: [
-            "Flexbox & CSS Grid Mastery",
-            "Custom Animations & Keyframes",
-            "Tailwind Utility Framework Efficiency"
+            "RESTful API Architecture & Endpoints",
+            "Stateless JWT-based Authentication",
+            "Conflict Detection & Business Rule Validation"
         ]
     },
     springboot: {
-        name: "Spring Boot",
-        rating: 92,
+        name: "Spring Boot & Security",
+        rating: 93,
         position: "Midfield (Core Engine)",
-        notes: "The central playmaker that structures the system. Exceptional at developing enterprise-grade REST APIs, modular code bases, and mapping relational databases using Spring Data JPA.",
+        notes: "The central playmaker structuring backend architectures. Exceptional at developing enterprise-grade REST APIs, layered controller-service-repository patterns, and managing ORM persistence with Spring Data JPA and Hibernate.",
         plays: [
-            "Spring Boot RESTful Architectures",
+            "Spring Boot RESTful Architectures & DTOs",
             "Spring Security & JWT Authentication",
-            "Spring Data JPA & Query Tuning"
+            "Spring Data JPA & Hibernate Relational Mapping"
         ]
     },
     java: {
-        name: "Java",
-        rating: 91,
+        name: "Java (JUnit & Mockito)",
+        rating: 92,
         position: "Midfield (Core Language)",
-        notes: "Sturdy foundation with elite command over compiler execution. Proficient in garbage collection mechanics, concurrency, multithreading, and type safety constraints.",
+        notes: "Sturdy foundation with elite command over compiler execution, OOP principles, and multithreading. Rigorously verified with automated JUnit and Mockito test suites ensuring high code quality.",
         plays: [
-            "Object-Oriented Programming (OOP)",
-            "Java Collections Framework (JCF)",
-            "Multithreading & Concurrency Control"
+            "Object-Oriented Programming (OOP) & Clean Code",
+            "Automated Unit Testing with JUnit & Mockito",
+            "Layered Architecture & Centralized Exception Handling"
         ]
     },
     sql: {
         name: "SQL & Relational DBs",
-        rating: 89,
+        rating: 90,
         position: "Midfield (Database Architecture)",
         notes: "Master of database schemas, relational integrity, and high-performance querying. Adept at query tuning, normalization, complex joins, and transaction consistency.",
         plays: [
@@ -72,47 +72,47 @@ const skillDatabase = {
         ]
     },
     oop: {
-        name: "OOP & DSA",
-        rating: 90,
+        name: "DSA & DBMS",
+        rating: 92,
         position: "Midfield (Logic & Algorithms)",
-        notes: "Keeps defensive lines organised. Elite tactical knowledge in Data Structures and Algorithms (solved 250+ Leetcode challenges). Highly skilled in time/space complexity optimization.",
+        notes: "Elite algorithmic command with 250+ LeetCode problems solved across Arrays, Linked Lists, Trees, Graphs, Dynamic Programming, and Greedy algorithms. Grounded in solid DBMS and Object-Oriented principles.",
         plays: [
-            "Time & Space Complexity (Big O)",
-            "Graphs, Trees, & Dynamic Programming",
-            "Clean Code & Solid Design Patterns"
+            "250+ LeetCode Solved (Trees, Graphs, DP, Greedy)",
+            "Time & Space Complexity Optimization (Big-O)",
+            "Database Management Systems (DBMS) Modeling"
         ]
     },
     mysql: {
-        name: "MySQL",
-        rating: 89,
+        name: "MySQL & Relational Modeling",
+        rating: 90,
         position: "Defense (Relational DB)",
-        notes: "Solid center-back defending database integrity. Expert at structural mapping, normal forms, indexing queries, and enforcing relational constraints.",
+        notes: "Solid center-back defending database integrity. Expert at structural relational modeling, foreign key constraints, table indexing for fast filtering, and enforcing ACID consistency.",
         plays: [
-            "SQL Schema Optimization & Normalization",
-            "Indexing & Transaction Isolation",
-            "Complex Joins & View Configurations"
+            "Relational Database Modeling & Normal Forms",
+            "Database Indexing for High-Speed Filtering",
+            "Referential Integrity & Transaction Boundaries"
         ]
     },
     redis: {
-        name: "Redis",
-        rating: 88,
+        name: "Redis Caching",
+        rating: 89,
         position: "Defense (Caching & Speed)",
-        notes: "Defensive midfielder blocking latency spikes. Acts as an in-memory cache to hold key-value tokens, sessions, and heavy API response data.",
+        notes: "Defensive midfielder neutralizing database query bottlenecks. Deploys high-speed in-memory caching to reduce repeated database queries, cache API responses, and minimize latency.",
         plays: [
-            "High-Speed Caching Strategies",
-            "Session Store Management",
-            "Key Expiry & Invalidation Rules"
+            "High-Speed In-Memory Caching Strategies",
+            "Query Latency Reduction & Cache Expiry",
+            "Session Store & High-Availability In-Memory Data"
         ]
     },
     git: {
-        name: "Git & Version Control",
+        name: "Git, GitHub & Maven",
         rating: 92,
-        position: "Goalkeeper (Tools & Safety)",
-        notes: "The last line of defense preventing deploy merges from breaking production. Master of branch management, resolving merge conflicts, and structured version tracking.",
+        position: "Goalkeeper (Tools & Build)",
+        notes: "The dependable guardian safeguarding code stability and build automation. Proficient in Git workflows, branching strategies, collaborative GitHub pull requests, and Maven lifecycle management.",
         plays: [
-            "Advanced Git Branching & Rebase",
-            "Merge Conflict Resolutions",
-            "Build Automation (Maven & Package Managers)"
+            "Git Branching, Rebasing & Conflict Resolution",
+            "Maven Build Automation & Dependency Management",
+            "GitHub Collaborative Code Management & Review"
         ]
     }
 };
@@ -305,10 +305,11 @@ soundToggle.addEventListener('click', () => {
 
 // --- Ticker Feeds ---
 const tickerNewsList = [
-    { sender: "Fabrizio Romano", msg: "Hak Ashiq M continues to attract serious interest after checking in 250+ Leetcode ratings. Staggering numbers." },
-    { sender: "Sky Sports Tech", msg: "Analyzing tactical shapes: Spring Boot and React are forming a formidable offensive pivot." },
+    { sender: "Fabrizio Romano", msg: "Hak Ashiq M continues to attract serious interest after checking in 250+ LeetCode problems solved. Staggering algorithmic numbers." },
+    { sender: "Sky Sports Tech", msg: "Analyzing tactical shapes: Spring Boot, Spring Security, and React are forming a formidable full-stack offensive pivot." },
     { sender: "Marca", msg: "Scout reports confirm: Hak Ashiq M's workrate has been registered as High/High." },
-    { sender: "The Athletic", msg: "Locker room sources say: Winning the Kho Kho Inter-Zonal tournament has built supreme leadership traits." }
+    { sender: "L'Equipe", msg: "Tactical breakdown: New Bidding Service engine demonstrates pristine sealed-tender privacy and unit test rigor." },
+    { sender: "The Athletic", msg: "Locker room sources say: Winning the Kho Kho Inter-Zonal tournament has built supreme stamina and leadership traits." }
 ];
 
 function addTickerItem(sender, message) {
